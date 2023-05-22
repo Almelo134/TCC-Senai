@@ -195,7 +195,6 @@
           </div>
         </nav>
 
-        <div class="main-panel">
           <div class="content-wrapper">
             <div class="row">
                 <div class="col-md-12 grid-margin stretch-card">
@@ -204,8 +203,8 @@
                     <div id="monthDisplay"></div>
 
                       <div>
-                        <button id="backButton">Voltar</button>
-                        <button id="nextButton">Próximo</button>
+                        <button id="buttonBack">Voltar</button>
+                        <button id="buttonNext">Próximo</button>
                       </div>
                         
                       </div>
@@ -230,7 +229,7 @@
                       <div id="newEventModal">
                       <h2>Novo Evento</h2>
 
-                      <input id="eventTitleInput" placeholder="Event Title"/>
+                      <input id="eventTitleInput" placeholder="Evento"/>
 
                       <button id="saveButton"> Salvar</button>
                       <button id="cancelButton">Cancelar</button>
@@ -250,7 +249,6 @@
                     </div>
                   </div>
                 </div>
-            </div>
           </div>
         </div>
     </div>

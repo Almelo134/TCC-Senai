@@ -15515,7 +15515,9 @@ input:focus {
   -webkit-align-items: stretch;
   align-items: stretch;
   -webkit-justify-content: stretch;
-  justify-content: stretch; }
+  justify-content: stretch; 
+  padding-top: 20px;
+}
   .stretch-card > .card {
     width: 100%;
     min-width: 100%; }
@@ -20587,7 +20589,7 @@ div.tagsinput {
   transition: width 0.25s ease, margin 0.25s ease;
   width: 100%;
   min-height: calc(100vh - 70px);
-  padding-top: 20px;
+  padding-top: 70px;
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: column;

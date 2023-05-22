@@ -17,7 +17,7 @@ html{
 
 --event-color: #58bae4;
 
---modal-event: #e8f4fa;
+--modal-event: #191c24;
 
 --color-day:rgb(7, 5, 5);
 
@@ -33,14 +33,14 @@ margin-top: 50px;
 justify-content: center;
 background-color: var(--body-color);
 }
-.backButton .nextButton {
+#buttonBack, #buttonNext {
 width: 75px;
 cursor: pointer;
 border: none;
 outline: none;
 padding: 5px;
-border-radius: 5px;
-color: white;
+border-radius: 15px;
+color: rgb(7, 5, 5);
 }
 
 #header {
@@ -120,7 +120,6 @@ width: 350px;
 top: 100px;
 left: calc(50% - 175px);
 position: absolute;
-font-family: sans-serif;
 }
 #eventTitleInput {
 padding: 10px;

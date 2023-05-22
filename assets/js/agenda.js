@@ -150,13 +150,13 @@ function deleteEvent(){
 // botões 
 
 function buttons (){
-  document.getElementById('backButton').addEventListener('click', ()=>{
+  document.getElementById('buttonBack').addEventListener('click', ()=>{
     nav--
     load()
     
   })
 
-  document.getElementById('nextButton').addEventListener('click',()=>{
+  document.getElementById('buttonNext').addEventListener('click',()=>{
     nav++
     load()
     
