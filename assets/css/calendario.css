@@ -1,0 +1,11 @@
+#calendar{
+    margin-bottom: 1em;
+}
+
+#previous {
+    border-radius: 25px;
+}
+
+#next {
+    border-radius: 25px
+}
