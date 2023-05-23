@@ -15515,8 +15515,7 @@ input:focus {
   -webkit-align-items: stretch;
   align-items: stretch;
   -webkit-justify-content: stretch;
-  justify-content: stretch; 
-  padding-top: 20px;
+  justify-content: stretch;
 }
   .stretch-card > .card {
     width: 100%;
