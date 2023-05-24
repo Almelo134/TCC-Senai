@@ -1,0 +1,9 @@
+CREATE TABLE {
+
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    nomeProj VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    categoria VARCHAR(255) NOT NULL,
+    participantes VARCHAR(100) NOT NULL
+    calendario VARCHAR(100) NOT NULL
+}   

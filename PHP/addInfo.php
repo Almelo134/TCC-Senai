@@ -1,8 +1,8 @@
 <?php
 
-require 'PHP/conexao/banco.php';
+require 'conexao/banco.php';
 
- $id_usuario = $_SESSION['id_usuario'];
+$id_usuario = $_SESSION['id_usuario'];
 
 
 $query = "SELECT * FROM usuario WHERE id = '{$id_usuario}'";

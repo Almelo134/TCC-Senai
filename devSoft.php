@@ -199,47 +199,43 @@
                     <div class="card-body">
                         <h4 class="card-title">Criar Projeto</h4>
                         <form class="forms-sample" action = "PHP/projetos.php" method = "POST">
+
                         <div class="form-group">
                             <label for="exampleInputUsername1"> Nome do Projeto </label>
                             <input type="text" name="nomeProj" class="form-control" id="nomeProj" placeholder="Projeto">
                         </div>
+                        
                         <div class="form-group">
                             <label for="exampleInputEmail1">Descrição</label>
                             <input type="text" name="descricao" class="form-control" id="descricao" placeholder="Descrição">
                         </div>
+
                         <div class="form-group">
-                        <?php
-                            function selected( $value, $selected ){
-                                return $value==$selected ? ' selected="selected"' : '';
-                              }
-                              ?>
                             <label for="exampleInputPassword1">Tipo de Projeto</label>
-                            <select class="form-control" id="exampleInputPassword1">
+                            <select class="form-control" id="exampleInputPassword1" name = "categoria">
                                 <option>Selecione o tipo de projeto</option>
-                                <option <?php echo selected( 'software', $categoria ); ?>>Software</option>
-                                <option <?php echo selected( 'ui', $categoria ); ?>>Ui</option>
-                                <option <?php echo selected( 'ux', $categoria ); ?>>Ux</option>
-                                <option <?php echo selected( 'hardware', $categoria ); ?>>Hardware</option>
+                                <option value = "Software">Software</option>
+                                <option value = "UI">Ui</option>
+                                <option value = "UX">Ux</option>
+                                <option value = "Hardware">Hardware</option>
                             </select>
 
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Participantes</label>
-                            <select class="form-control" id="exampleInputPassword1">
+                            <select name = "participantes" class="form-control" id="exampleInputPassword1">
                                 <option>Selecione os participantes</option>
-                                <option>mario</option>
-                                <option>joao </option>
-                                <option>lucas</option>
-                                <option>pedro</option>
+                              <option value = "Mario">Mario</option>
+                                <option value = "Joao">Joao </option>
+                                <option value = "Lucas">Lucas</option>
+                                <option value = "Pedro">Pedro</option>
                             </select>
                         </div>
                         <div class="form-group">
                           <label for="exampleInputPassword1">Data</label>
-                          <input class="form-control" type="date" id="exampleInputPassword1" name="trip-start"
-                            value="<?php $dataEntrega?>"
-                            min="<?php $dataEntrega?>" max="2099-12-31">
+                          <input class="form-control" type="date" id="exampleInputPassword1" name="calendario  " value="<?php $dataEntrega?>" min="<?php $dataEntrega?>" max="2099-12-31">
                         </div>
-                        <button type="submit" class="btn btn-primary mr-2">Enviar</button>
+                        <button type="submit" class="btn btn-primary mr-2" name ="Enviar">Enviar</button>
                         <button class="btn btn-dark">Cancelar</button>
                         </form>
                         
