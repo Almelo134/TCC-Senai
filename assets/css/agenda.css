@@ -11,7 +11,7 @@ html{
 
 --box-shadow: #CBD4C2;
 
---hover: #e8faed;
+--hover: #1a1f1a;
 
 --current-day:#073a53;
 
@@ -58,7 +58,7 @@ background-color:var(--header-button);
 width: 70px;
 }
 #weekdays {
-width: 80%;
+width: 63%;
 display: flex;
 color: var(--color-weekdays) ;
 }
@@ -68,7 +68,7 @@ width: 100px;
 padding: 10px;
 }
 #calendar {
-width: 80%;
+width: 65%;
 margin: 20px;
 display: flex;
 flex-wrap: wrap;
