@@ -198,24 +198,30 @@
                   <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Criar Projeto</h4>
-                        <form class="forms-sample">
+                        <form class="forms-sample" action = "PHP/projetos.php" method = "POST">
                         <div class="form-group">
                             <label for="exampleInputUsername1"> Nome do Projeto </label>
-                            <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Projeto">
+                            <input type="text" name="nomeProj" class="form-control" id="nomeProj" placeholder="Projeto">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Descrição</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Descrição">
+                            <input type="text" name="descricao" class="form-control" id="descricao" placeholder="Descrição">
                         </div>
                         <div class="form-group">
+                        <?php
+                            function selected( $value, $selected ){
+                                return $value==$selected ? ' selected="selected"' : '';
+                              }
+                              ?>
                             <label for="exampleInputPassword1">Tipo de Projeto</label>
                             <select class="form-control" id="exampleInputPassword1">
                                 <option>Selecione o tipo de projeto</option>
-                                <option>Software</option>
-                                <option>Ui</option>
-                                <option>Ux</option>
-                                <option>Hardware</option>
+                                <option <?php echo selected( 'software', $categoria ); ?>>Software</option>
+                                <option <?php echo selected( 'ui', $categoria ); ?>>Ui</option>
+                                <option <?php echo selected( 'ux', $categoria ); ?>>Ux</option>
+                                <option <?php echo selected( 'hardware', $categoria ); ?>>Hardware</option>
                             </select>
+
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Participantes</label>
