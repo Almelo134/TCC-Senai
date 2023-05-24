@@ -26,9 +26,7 @@
 
   </head>
   <body>
-    <style>
 
-</style>
     <div class="container-scroller">
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
@@ -141,7 +139,7 @@
 
       <div class="container-fluid page-body-wrapper">
 
-        <nav class="navbar p-0 fixed-top d-flex flex-row">
+      <nav class="navbar p-0 fixed-top d-flex flex-row">
           <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
             <a class="navbar-brand brand-logo-mini" href="home.php"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
           </div>
@@ -151,7 +149,10 @@
             </button>
             
             <ul class="navbar-nav navbar-nav-right">
-            
+              <li class="nav-item dropdown d-none d-lg-block">
+                <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" href="devSoft.php">+ Criar novo projeto</a>
+                  </a>
+              </li>
 
 
               <li class="nav-item dropdown">
@@ -163,7 +164,7 @@
                   </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                  <h6 class="p-3 mb-0">Perfil</h6>
+                  <h6 class="p-3 mb-0">Profile</h6>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
@@ -174,19 +175,19 @@
                     <div class="preview-item-content">
                       <p class="preview-subject mb-1">Configurações</p>
                     </div>
-                  </a>
-                  <div class = "logout" onclick="location.href='PHP/logout.php'"> 
-                    <a class="dropdown-item preview-item">
+                  </a> 
+                 <div class = "logout" onclick="location.href='PHP/logout.php'"> 
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
                         <div class="preview-icon bg-dark rounded-circle">
                             <i class="mdi mdi-logout text-danger"></i>
+                          </div>
                         </div>
-                      </div>
-                      <div class="preview-item-content">
-                        <p class="preview-subject mb-1">Log out</p>
-                      </div>
-                      </a>
-                  </div>
+                          <div class="preview-item-content">
+                          <p class="preview-subject mb-1">Log out</p>
+                        </div>
+                  </a>
               </li>
             </ul>
             <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -231,8 +232,8 @@
 
                       <input id="eventTitleInput" placeholder="Evento"/>
 
-                      <button id="saveButton"> Salvar</button>
-                      <button id="cancelButton">Cancelar</button>
+                      <button id="saveButton" href="agenda.php"> Salvar</button>
+                      <button id="cancelButton" href="agenda.php">Cancelar</button>
                       </div>
 
                       <div id="deleteEventModal">
@@ -241,8 +242,8 @@
                       <div id="eventText"></div><br>
 
 
-                      <button id="deleteButton">Deletar</button>
-                      <button id="closeButton">Fechar</button>
+                      <button id="deleteButton" href="agenda.php">Deletar</button>
+                      <button id="closeButton" href="agenda.php">Fechar</button>
                       </div>
 
                         

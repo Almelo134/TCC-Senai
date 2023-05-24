@@ -162,7 +162,7 @@ function buttons (){
     
   })
 
-  document.getElementById('saveButton').addEventListener('click',()=> saveEvent())
+  document.getElementById('saveButton').addEventListener('click', ()=> saveEvent())
 
   document.getElementById('cancelButton').addEventListener('click',()=>closeModal())
 

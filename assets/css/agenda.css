@@ -153,3 +153,9 @@ height: 100vh;
 position: absolute;
 background-color: rgba(0,0,0,0.8);
 }
+
+#saveButton, #cancelButton, #deleteButton, #closeButton{
+    border-radius: 15px;
+    outline: none;
+    border: black;
+}
