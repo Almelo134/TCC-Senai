@@ -7493,8 +7493,9 @@ figure {
 
 img {
   vertical-align: middle;
+  border-radius: 15px;
   border-style: none; }
-
+  
 svg {
   overflow: hidden;
   vertical-align: middle; }

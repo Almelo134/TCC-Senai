@@ -184,7 +184,7 @@
           <div class="content-wrapper">
             <div class="row p-2">
               <div class="card col-sm-2 grid-margin pt-4">
-                <img class="img-xs-12 rounded-circle" src="assets/images/faces/logo.jpeg"></img>
+                <img class="img-xs-12" src="assets/images/faces/logo.jpeg"></img>
                 <div class="card align-items-buttom pr-5 ">
                   <div class="card-body mb-6 ">
                     <div class="form-group">
