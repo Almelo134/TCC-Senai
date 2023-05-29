@@ -114,6 +114,15 @@
             </a>
           </li>
 
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="funcionario.php">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-outline"></i>
+              </span>
+              <span class="menu-title">Funcionários</span>
+            </a>
+          </li>
+
 
 
           <li class="nav-item menu-items">

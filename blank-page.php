@@ -94,7 +94,7 @@
 
 
           <li class="nav-item menu-items">
-            <a class="nav-link" href="blank-page.html">
+            <a class="nav-link" href="blank-page.php">
               <span class="menu-icon">
                 <i class="mdi mdi-contacts"></i>
               </span>
@@ -109,6 +109,15 @@
                 <i class="mdi mdi-account-outline"></i>
               </span>
               <span class="menu-title">Perfil</span>
+            </a>
+          </li>
+
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="funcionario.php">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-outline"></i>
+              </span>
+              <span class="menu-title">Funcionários</span>
             </a>
           </li>
 
@@ -145,11 +154,13 @@
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
               <span class="mdi mdi-menu"></span>
             </button>
+            <ul class="navbar-nav navbar-nav-right">
+              <li class="nav-item dropdown d-none d-lg-block">
+                <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" href="devSoft.php">+ Criar novo projeto</a>
+                  </a>
+              </li>
             
             <ul class="navbar-nav navbar-nav-right">
-            
-
-
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">

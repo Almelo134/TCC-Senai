@@ -112,6 +112,15 @@
             </a>
           </li>
 
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="funcionario.php">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-outline"></i>
+              </span>
+              <span class="menu-title">Funcionários</span>
+            </a>
+          </li>
+
 
 
           <li class="nav-item menu-items">
@@ -200,16 +209,16 @@
                         <h4 class="card-title">Criar Projeto</h4>
                         <form class="forms-sample">
                         <div class="form-group">
-                            <label for="exampleInputUsername1"> Nome do Projeto </label>
-                            <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Projeto">
+                            <label for="Username"> Nome do Projeto </label>
+                            <input type="text" class="form-control" id="Username" placeholder="Projeto">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Descrição</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Descrição">
+                            <label for="Email">Descrição</label>
+                            <input type="text" class="form-control" id="Email" placeholder="Descrição">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Tipo de Projeto</label>
-                            <select class="form-control" id="exampleInputPassword1">
+                            <label for="Password">Tipo de Projeto</label>
+                            <select class="form-control" id="Password">
                                 <option>Selecione o tipo de projeto</option>
                                 <option>Software</option>
                                 <option>Ui</option>
@@ -218,8 +227,8 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Participantes</label>
-                            <select class="form-control" id="exampleInputPassword1">
+                            <label for="Password">Participantes</label>
+                            <select class="form-control" id="Password">
                                 <option>Selecione os participantes</option>
                                 <option>mario</option>
                                 <option>joao </option>
@@ -228,8 +237,8 @@
                             </select>
                         </div>
                         <div class="form-group">
-                          <label for="exampleInputPassword1">Data</label>
-                          <input class="form-control" type="date" id="exampleInputPassword1" name="trip-start"
+                          <label for="Password">Data</label>
+                          <input class="form-control" type="date" id="Password" name="trip-start"
                             value="<?php $dataEntrega?>"
                             min="<?php $dataEntrega?>" max="2099-12-31">
                         </div>

@@ -121,6 +121,15 @@
             </a>
           </li>
 
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="funcionario.php">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-outline"></i>
+              </span>
+              <span class="menu-title">Funcionários</span>
+            </a>
+          </li>
+
 
         <!-- apagar -->
           <li class="nav-item menu-items">
@@ -255,10 +264,10 @@
 
           </div>
 
-          <footer class="footer">
+          <!-- <footer class="footer">
         
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright <?php print $nome; ?></span>
-          </footer>
+          </footer> -->
         </div>
       </div>
     </div>
