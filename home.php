@@ -6,8 +6,23 @@
     header("Location: index.php");
     exit();
 }
-
   require 'PHP/conexao/banco.php';
+
+  $query = "SELECT * FROM projeto";
+  $result = mysqli_query($conn, $query);
+  if($result->num_rows > 0){
+
+    while($row =$result ->fetch_assoc()){
+          
+    $row = $result-> fetch_assoc();
+    $nomeProj = $row['nomeProj'];
+    $desc = $row['descricao'];
+    $cate = $row['categoria'];
+    $parti = $row['participantes'];
+    $cale = $row['calendario'];
+
+    }
+  }
 
 
 ?>
@@ -121,6 +136,15 @@
             </a>
           </li>
 
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="funcionario.php">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-outline"></i>
+              </span>
+              <span class="menu-title">Funcionários</span>
+            </a>
+          </li>
+
 
         <!-- apagar -->
           <li class="nav-item menu-items">
@@ -221,8 +245,8 @@
                         <div class="preview-list">
                           <div class="preview-item border-bottom">
                           <!-- Adicionar php aqui -->
-                            
-                          
+                          <p>Nome do Projeto: <?php echo $nomeProj ." | ". $desc ." | ".  $cate ." | ".  $parti ." | ".  $cale; ?></p>
+
                           </div>
                         </div>
                       </div>
@@ -255,12 +279,10 @@
 
           </div>
 
-          <footer class="footer">
-            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+          <!-- <footer class="footer">
+        
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright <?php print $nome; ?></span>
-              </div>
-          </footer>
-
+          </footer> -->
         </div>
       </div>
     </div>

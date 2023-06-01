@@ -112,6 +112,15 @@
             </a>
           </li>
 
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="funcionario.php">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-outline"></i>
+              </span>
+              <span class="menu-title">Funcionários</span>
+            </a>
+          </li>
+
 
 
           <li class="nav-item menu-items">
@@ -198,44 +207,42 @@
                   <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Criar Projeto</h4>
-                        <form class="forms-sample" action = "PHP/projetos.php" method = "POST">
-
+                        <form class="forms-sample">
                         <div class="form-group">
-                            <label for="exampleInputUsername1"> Nome do Projeto </label>
-                            <input type="text" name="nomeProj" class="form-control" id="nomeProj" placeholder="Projeto">
+                            <label for="Username"> Nome do Projeto </label>
+                            <input type="text" class="form-control" id="Username" placeholder="Projeto">
                         </div>
-                        
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Descrição</label>
-                            <input type="text" name="descricao" class="form-control" id="descricao" placeholder="Descrição">
+                            <label for="Email">Descrição</label>
+                            <input type="text" class="form-control" id="Email" placeholder="Descrição">
                         </div>
-
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Tipo de Projeto</label>
-                            <select class="form-control" id="exampleInputPassword1" name = "categoria">
+                            <label for="Password">Tipo de Projeto</label>
+                            <select class="form-control" id="Password">
                                 <option>Selecione o tipo de projeto</option>
-                                <option value = "Software">Software</option>
-                                <option value = "UI">Ui</option>
-                                <option value = "UX">Ux</option>
-                                <option value = "Hardware">Hardware</option>
+                                <option>Software</option>
+                                <option>Ui</option>
+                                <option>Ux</option>
+                                <option>Hardware</option>
                             </select>
-
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Participantes</label>
-                            <select name = "participantes" class="form-control" id="exampleInputPassword1">
+                            <label for="Password">Participantes</label>
+                            <select class="form-control" id="Password">
                                 <option>Selecione os participantes</option>
-                              <option value = "Mario">Mario</option>
-                                <option value = "Joao">Joao </option>
-                                <option value = "Lucas">Lucas</option>
-                                <option value = "Pedro">Pedro</option>
+                                <option>mario</option>
+                                <option>joao </option>
+                                <option>lucas</option>
+                                <option>pedro</option>
                             </select>
                         </div>
                         <div class="form-group">
-                          <label for="exampleInputPassword1">Data</label>
-                          <input class="form-control" type="date" id="exampleInputPassword1" name="calendario  " value="<?php $dataEntrega?>" min="<?php $dataEntrega?>" max="2099-12-31">
+                          <label for="Password">Data</label>
+                          <input class="form-control" type="date" id="Password" name="trip-start"
+                            value="<?php $dataEntrega?>"
+                            min="<?php $dataEntrega?>" max="2099-12-31">
                         </div>
-                        <button type="submit" class="btn btn-primary mr-2" name ="Enviar">Enviar</button>
+                        <button type="submit" class="btn btn-primary mr-2">Enviar</button>
                         <button class="btn btn-dark">Cancelar</button>
                         </form>
                         

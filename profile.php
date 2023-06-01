@@ -99,6 +99,15 @@
           </li>
 
           <li class="nav-item menu-items">
+            <a class="nav-link" href="funcionario.php">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-outline"></i>
+              </span>
+              <span class="menu-title">Funcionários</span>
+            </a>
+          </li>
+
+          <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <span class="menu-icon">
                 <i class="mdi mdi-security"></i>
@@ -184,15 +193,15 @@
           <div class="content-wrapper">
             <div class="row p-2">
               <div class="card col-sm-2 grid-margin pt-4">
-                <img class="img-xs-12 rounded-circle" src="assets/images/faces/logo.jpeg"></img>
+                <img class="img-xs-12" src="assets/images/faces/logo.jpeg"></img>
                 <div class="card align-items-buttom pr-5 ">
                   <div class="card-body mb-6 ">
                     <div class="form-group">
-                      <label for="exampleInputUsername1">Nome:<?php print $nome; ?></label>
+                      <label for="Username">Nome:<?php print $nome; ?></label>
 
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputEmail1">Email:<?php print $email; ?></label>
+                      <label for="Email">Email:<?php print $email; ?></label>
                     </div>
                     <div class="form-group">
                       <label for="cellphone">Telefone:</label>
@@ -208,20 +217,20 @@
                     <h4 class="card-title">Alterar dados da conta</h4>
                     <form class="forms-sample">
                       <div class="form-group">
-                        <label for="exampleInputUsername1">Username</label>
-                        <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
+                        <label for="Username">Username</label>
+                        <input type="text" class="form-control" id="Username" placeholder="Username">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Email</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                        <label for="Email">Email</label>
+                        <input type="email" class="form-control" id="Email" placeholder="Email">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputPassword1">senha</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
+                        <label for="Password">senha</label>
+                        <input type="password" class="form-control" id="Password" placeholder="Senha">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputConfirmPassword1">Confirmar senha</label>
-                        <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Confirmar Senha">
+                        <label for="ConfPassword">Confirmar senha</label>
+                        <input type="password" class="form-control" id="ConfPassword" placeholder="Confirmar Senha">
                       </div>      
                       <button type="submit" class="btn btn-primary mr-2">Enviar</button>
                       <button class="btn btn-dark">Cancelar</button>
@@ -232,11 +241,11 @@
             </div>
           </div>
 
-          <footer class="footer">
+          <!-- <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright <?php print $nome; ?></span>
               </div>
-          </footer>
+          </footer> -->
 
         </div>
       </div>
