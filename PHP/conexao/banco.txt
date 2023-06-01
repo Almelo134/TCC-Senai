@@ -16,4 +16,8 @@ CREATE TABLE funcionario (
     setor VARCHAR(100) NOT NULL,
     cargo VARCHAR(100) NOT NULL,
     carga_horaria VARCHAR(100) NOT NULL
+<<<<<<< HEAD
 );
+=======
+);
+>>>>>>> 2cbeca47e01149168dbb0229f431b29dff26699a
