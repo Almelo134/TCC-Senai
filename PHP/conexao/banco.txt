@@ -1,4 +1,4 @@
-CREATE TABLE {
+CREATE TABLE usuario {
 
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     username VARCHAR(100) NOT NULL,
@@ -7,3 +7,13 @@ CREATE TABLE {
     confirSenha VARCHAR(100) NOT NULL
 }   
 
+funcionario {
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    username VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    telefone VARCHAR(100) NOT NULL,
+    endereco VARCHAR(100) NOT NULL,
+    setor VARCHAR(100) NOT NULL,
+    cargo VARCHAR(100) NOT NULL,
+    carga horaria VARCHAR(100) NOT NULL
+}

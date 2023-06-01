@@ -207,16 +207,40 @@ $dataEntrega = date('d/m/Y');
               <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h3>Funcionários</h3>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Setor
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Vendas</a>
-                            <a class="dropdown-item" href="#">T.i</a>
-                            <a class="dropdown-item" href="#">Adm</a>
-                        </div>
+                    <div class=" border-bottom ">
+                      <div class="title">
+                        <h3>Funcionários</h3>
+                      </div>
+                      <div class="dropdown grid-margin">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Setor
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" href="#">Vendas</a>
+                              <a class="dropdown-item" href="#">T.i</a>
+                              <a class="dropdown-item" href="#">Adm</a>
+                          </div>                
+                          
+                          <select class="form-control" id="funcionario">
+                                <option>Selecione os participantes</option>
+   
+                            </select>
+
+                            <script>
+                            // Array de opções
+                            var opcoes = ["Opção 1", "Opção 2", "Opção 3"];
+
+                            // Seletor do elemento select
+                            var selectElement = document.getElementById("Funcionarios");
+
+                            // Preencher o select com as opções
+                            for (var i = 0; i < opcoes.length; i++) {
+                              var option = document.createElement("option");
+                              option.text = opcoes[i];
+                              selectElement.add(option);
+                            }
+                          </script>
+                      </div>
                     </div>
                   </div>
                 </div>

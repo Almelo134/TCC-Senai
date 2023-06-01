@@ -1,9 +1,16 @@
 <?php
+
   session_start();
+
   if (!isset($_SESSION['id_usuario'])) {
     header("Location: index.php");
     exit();
 }
+  
+  require 'PHP/conexao/banco.php';
+
+  $dataEntrega = date('d/m/Y');
+
 ?>
 
 <!DOCTYPE html>
@@ -11,18 +18,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Perfil</title>
-
+    <title>Admin</title>
     <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   </head>
   <body>
     <div class="container-scroller">
-
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
           <a class="sidebar-brand brand-logo" href="home.php"><img src="assets/images/logo.svg" alt="logo" /></a>
@@ -89,6 +93,17 @@
             </a>
           </li>
 
+
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="blank-page.php">
+              <span class="menu-icon">
+                <i class="mdi mdi-contacts"></i>
+              </span>
+              <span class="menu-title">Pagina em branco</span>
+            </a>
+          </li>
+
+
           <li class="nav-item menu-items">
             <a class="nav-link" href="profile.php">
               <span class="menu-icon">
@@ -107,21 +122,23 @@
             </a>
           </li>
 
+
+
           <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <span class="menu-icon">
                 <i class="mdi mdi-security"></i>
               </span>
-              <span class="menu-title">paginas</span>
+              <span class="menu-title">User Pages</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Pagina em branco </a></li>
+                <li class="nav-item"> <a class="nav-link" href="blank-page.html"> Pagina em branco </a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> login </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Registrar </a></li>
+                <li class="nav-item"> <a class="nav-link" href="index.php"> login </a></li>
+                <li class="nav-item"> <a class="nav-link" href="register.php"> Registrar </a></li>
               </ul>
             </div>
           </li>
@@ -138,18 +155,18 @@
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
               <span class="mdi mdi-menu"></span>
             </button>
-            
             <ul class="navbar-nav navbar-nav-right">
               <li class="nav-item dropdown d-none d-lg-block">
                 <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" href="devSoft.php">+ Criar novo projeto</a>
+                  </a>
               </li>
-
-
+            
+            <ul class="navbar-nav navbar-nav-right">
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
                     <img class="img-xs rounded-circle" src="assets/images/faces/logo.jpeg" alt="">
-                    <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php echo $nome;?></p>
+                    <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php print $nome; ?></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
                 </a>
@@ -166,20 +183,18 @@
                       <p class="preview-subject mb-1">Configurações</p>
                     </div>
                   </a>
-                    <div class = "logout" onclick="location.href='PHP/logout.php'"> 
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-logout text-danger"></i>
-                              </div>
-                            </div>
-                            <div class="preview-item-content">
-                            <p class="preview-subject mb-1">Log out</p>
-                            </div>
-                        </div> 
+                  <div class = "logout" onclick="location.href='PHP/logout.php'"> 
+                    <a class="dropdown-item preview-item">
+                    <div class="preview-thumbnail">
+                        <div class="preview-icon bg-dark rounded-circle">
+                            <i class="mdi mdi-logout text-danger"></i>
+                        </div>
+                      </div>
+                      <div class="preview-item-content">
+                        <p class="preview-subject mb-1">Log out</p>
+                      </div>
                       </a>
-
+                  </div>
               </li>
             </ul>
             <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -188,78 +203,96 @@
           </div>
         </nav>
 
-
         <div class="main-panel">
           <div class="content-wrapper">
-            <div class="row p-2">
-              <div class="card col-sm-2 grid-margin pt-4">
-                <img class="img-xs-12" src="assets/images/faces/logo.jpeg"></img>
-                <div class="card align-items-buttom pr-5 ">
-                  <div class="card-body mb-6 ">
-                    <div class="form-group">
-                      <label for="Username">Nome:<?php print $nome; ?></label>
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
 
-                    </div>
-                    <div class="form-group">
-                      <label for="Email">Email:<?php print $email; ?></label>
-                    </div>
-                    <div class="form-group">
-                      <label for="cellphone">Telefone:</label>
-                      <label></label>
+                    <h3>Opções</h3>
+                    
+                    <h5>Funcionários</h5>
+                    <select class="form-control col-2" id="seu-select" ></select>
+
+
+                    <h6>Adicionar Funcionário</h6>
+                    <input class="form-control col-2" type="text" id="nova-opcao">
+                    <button id="adicionar-opcao">Adicionar</button>
+
+                    <h6>Remover Funcionário</h6>
+                    <button id="remover-opcao">Remover</button>
+
+                    <script>
+                        // Obter as opções armazenadas no localStorage (ou sessionStorage)
+                        var opcoes = JSON.parse(localStorage.getItem("opcoes")) || ["Selecione um funcionário"];
+
+                        document.addEventListener("DOMContentLoaded", function() {
+                        var selectElement = document.getElementById("seu-select");
+
+                        // Função para atualizar as opções no select
+                        function atualizarSelect() {
+                            selectElement.innerHTML = "";
+                            for (var i = 0; i < opcoes.length; i++) {
+                            var option = document.createElement("option");
+                            option.value = opcoes[i];
+                            option.text = opcoes[i];
+                            selectElement.appendChild(option);
+                            }
+                        }
+
+                        // Preencher o select com as opções iniciais
+                        atualizarSelect();
+
+                        // Adicionar opção ao array e atualizar o select
+                        document.getElementById("adicionar-opcao").addEventListener("click", function() {
+                            var novaOpcao = document.getElementById("nova-opcao").value;
+                            opcoes.push(novaOpcao);
+                            atualizarSelect();
+                            document.getElementById("nova-opcao").value = ""; // Limpar o campo de texto
+
+                            // Armazenar o array atualizado no localStorage (ou sessionStorage)
+                            localStorage.setItem("opcoes", JSON.stringify(opcoes));
+                        });
+
+                        // Remover opções selecionadas do select e do array
+                        document.getElementById("remover-opcao").addEventListener("click", function() {
+                            var selecionadas = Array.from(selectElement.selectedOptions).map(function(option) {
+                            return option.value;
+                            });
+                            opcoes = opcoes.filter(function(value) {
+                            return selecionadas.indexOf(value) === -1;
+                            });
+                            atualizarSelect();
+
+                            // Armazenar o array atualizado no localStorage (ou sessionStorage)
+                            localStorage.setItem("opcoes", JSON.stringify(opcoes));
+                        });
+                        });
+                    </script>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div class="col-lg-10 grid-margin align-items-buttom">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Alterar dados da conta</h4>
-                    <form class="forms-sample">
-                      <div class="form-group">
-                        <label for="Username">Username</label>
-                        <input type="text" class="form-control" id="Username" placeholder="Username">
-                      </div>
-                      <div class="form-group">
-                        <label for="Email">Email</label>
-                        <input type="email" class="form-control" id="Email" placeholder="Email">
-                      </div>
-                      <div class="form-group">
-                        <label for="Password">senha</label>
-                        <input type="password" class="form-control" id="Password" placeholder="Senha">
-                      </div>
-                      <div class="form-group">
-                        <label for="ConfPassword">Confirmar senha</label>
-                        <input type="password" class="form-control" id="ConfPassword" placeholder="Confirmar Senha">
-                      </div>      
-                      <button type="submit" class="btn btn-primary mr-2">Enviar</button>
-                      <button class="btn btn-dark">Cancelar</button>
-                    </form>
-                  </div>
-              </div>
-
             </div>
           </div>
-
+        
           <!-- <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright <?php print $nome; ?></span>
-              </div>
+            </div>
           </footer> -->
-
         </div>
-      </div>
     </div>
 
     
     <!-- plugins:js -->
+
+    <script src="assets/js/calendar.js"></script>
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="assets/vendors/progressbar.js/progressbar.min.js"></script>
     <script src="assets/js/off-canvas.js"></script>
     <script src="assets/js/hoverable-collapse.js"></script>
     <script src="assets/js/misc.js"></script>
     <script src="assets/js/settings.js"></script>
-    <script src="assets/js/todolist.js"></script>
     <script src="assets/js/dashboard.js"></script>
 
   </body>

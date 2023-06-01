@@ -220,6 +220,7 @@
                   <div class="card-body">
                     <div class="d-flex flex-row justify-content-between">
                       <h4 class="card-title mb-1">Projetos abertos</h4>
+                      <p class="text-muted mb-1">Data de Entrega</p>
                       <p class="text-muted mb-1">Status</p>
                     </div>
 
@@ -228,10 +229,31 @@
                     <div class="row">
                       <div class="col-12">
                         <div class="preview-list">
+
+                          <!-- unico item -->
                           <div class="preview-item border-bottom">
-                          <!-- Adicionar php aqui -->
-                            
-                          
+                            <div class="preview-thumbnail">
+                              <div class="preview-icon bg-primary">
+                                <i class="mdi mdi-file-document"></i>
+                              </div>
+                            </div>
+                            <div class="preview-item-content d-sm-flex flex-grow">
+                              <div class="flex-grow">
+
+                                <!-- mostrar o nome do projeto -->
+                                <h6 class="preview-subject"><?php echo "aqui"?></h6>
+
+                                <!-- Mostrar descrição -->
+                                <p class="text-muted mb-0"><?php echo "aqui"?></p>
+                              </div>
+
+                              <div class="mr-auto text-sm-center pt-2 pt-sm-0">
+
+                                <p class="text-muted">Data de Entrega</p>
+                                <!-- Mostrar data de entrega -->
+                                <p class="text-muted mb-0"><?php ?></p>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
