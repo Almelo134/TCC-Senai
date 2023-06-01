@@ -45,7 +45,7 @@ $dataEntrega = date('d/m/Y');
             </div>
             <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
             <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-              <a href="#" class="dropdown-item preview-item">
+              <a href="config.php" class="dropdown-item preview-item">
                 <div class="preview-thumbnail">
                   <div class="preview-icon bg-dark rounded-circle">
                     <i class="mdi mdi-settings text-primary"></i>
@@ -171,7 +171,7 @@ $dataEntrega = date('d/m/Y');
               <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
                 <h6 class="p-3 mb-0">Perfil</h6>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item preview-item">
+                <a href="config.php" class="dropdown-item preview-item">
                   <div class="preview-thumbnail">
                     <div class="preview-icon bg-dark rounded-circle">
                       <i class="mdi mdi-settings text-success"></i>
@@ -211,16 +211,6 @@ $dataEntrega = date('d/m/Y');
                       <div class="title">
                         <h3>Funcionários</h3>
                       </div>
-                      <div class="dropdown grid-margin">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Setor
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                              <a class="dropdown-item" href="#">Vendas</a>
-                              <a class="dropdown-item" href="#">T.i</a>
-                              <a class="dropdown-item" href="#">Adm</a>
-                          </div>                
-                          
                           <select class="form-control" id="funcionario">
                                 <option>Selecione os participantes</option>
    

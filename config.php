@@ -46,7 +46,7 @@
               </div>
               <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
               <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-                <a href="#" class="dropdown-item preview-item">
+                <a href="config.php" class="dropdown-item preview-item">
                   <div class="preview-thumbnail">
                     <div class="preview-icon bg-dark rounded-circle">
                       <i class="mdi mdi-settings text-primary"></i>
@@ -173,7 +173,7 @@
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
                   <h6 class="p-3 mb-0">Perfil</h6>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
+                  <a href="config.php" class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
                       <div class="preview-icon bg-dark rounded-circle">
                         <i class="mdi mdi-settings text-success"></i>
@@ -213,22 +213,22 @@
                     <h3>Opções</h3>
                     
                     <h5>Funcionários</h5>
-                    <select class="form-control col-2" id="seu-select" ></select>
+                    <select class="form-control col-2" id="select"></select>
 
 
-                    <h6>Adicionar Funcionário</h6>
+                    <h6>Adicionar Setor</h6>
                     <input class="form-control col-2" type="text" id="nova-opcao">
                     <button id="adicionar-opcao">Adicionar</button>
 
-                    <h6>Remover Funcionário</h6>
+                    <h6>Remover Setor</h6>
                     <button id="remover-opcao">Remover</button>
 
                     <script>
                         // Obter as opções armazenadas no localStorage (ou sessionStorage)
-                        var opcoes = JSON.parse(localStorage.getItem("opcoes")) || ["Selecione um funcionário"];
+                        var opcoes = JSON.parse(localStorage.getItem("opcoes")) || ["Selecione um setor"];
 
                         document.addEventListener("DOMContentLoaded", function() {
-                        var selectElement = document.getElementById("seu-select");
+                        var selectElement = document.getElementById("select");
 
                         // Função para atualizar as opções no select
                         function atualizarSelect() {
