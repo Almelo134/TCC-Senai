@@ -1,13 +1,13 @@
-CREATE TABLE usuario {
+CREATE TABLE usuario (
 
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     senha VARCHAR(100) NOT NULL,
     confirSenha VARCHAR(100) NOT NULL
-}   
+);
 
-funcionario {
+CREATE TABLE funcionario (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
@@ -15,5 +15,5 @@ funcionario {
     endereco VARCHAR(100) NOT NULL,
     setor VARCHAR(100) NOT NULL,
     cargo VARCHAR(100) NOT NULL,
-    carga horaria VARCHAR(100) NOT NULL
-}
+    carga_horaria VARCHAR(100) NOT NULL
+);
