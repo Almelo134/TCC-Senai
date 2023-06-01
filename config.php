@@ -233,12 +233,15 @@
                         // Função para atualizar as opções no select
                         function atualizarSelect() {
                             selectElement.innerHTML = "";
-                            for (var i = 0; i < opcoes.length; i++) {
-                            var option = document.createElement("option");
-                            option.value = opcoes[i];
-                            option.text = opcoes[i];
-                            selectElement.appendChild(option);
-                            }
+                              for (var i = 0; i < opcoes.length; i++) { 
+
+                                var option = document.createElement("option");
+                                option.value = opcoes[i];
+                                option.text = opcoes[i];
+                                selectElement.appendChild(option);
+                            
+                          }
+                            
                         }
 
                         // Preencher o select com as opções iniciais
@@ -246,13 +249,22 @@
 
                         // Adicionar opção ao array e atualizar o select
                         document.getElementById("adicionar-opcao").addEventListener("click", function() {
+                          
                             var novaOpcao = document.getElementById("nova-opcao").value;
-                            opcoes.push(novaOpcao);
+                                 
+                            if( novaOpcao == ""){
+                              alert("Campo inváido");
+                              return;
+                            }
+                            else{
+                              opcoes.push(novaOpcao);
                             atualizarSelect();
                             document.getElementById("nova-opcao").value = ""; // Limpar o campo de texto
 
                             // Armazenar o array atualizado no localStorage (ou sessionStorage)
                             localStorage.setItem("opcoes", JSON.stringify(opcoes));
+                            }
+                            
                         });
 
                         // Remover opções selecionadas do select e do array
