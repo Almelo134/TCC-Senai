@@ -9,7 +9,9 @@
   
   require 'PHP/conexao/banco.php';
 
-  $dataEntrega = date('d/m/Y');
+  $dataHoje = date('Y-m-d');
+  $datamin = date('Y-m-d', strtotime('-1 day'));
+  $datamax = date('Y-m-d', strtotime('+100 year'));
 
 ?>
 
@@ -207,42 +209,40 @@
                   <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Criar Projeto</h4>
-                        <form class="forms-sample">
+                        <form action="PHP/projeto.php" method="POST" class="forms-sample">
                         <div class="form-group">
                             <label for="Username"> Nome do Projeto </label>
-                            <input type="text" class="form-control" id="Username" placeholder="Projeto">
+                            <input type="text" class="form-control" id="Username" name = "nomeProj" placeholder="Projeto">
                         </div>
                         <div class="form-group">
                             <label for="Email">Descrição</label>
-                            <input type="text" class="form-control" id="Email" placeholder="Descrição">
+                            <input type="text" class="form-control" name = "descricao" id="Email" placeholder="Descrição">
                         </div>
                         <div class="form-group">
                             <label for="Password">Tipo de Projeto</label>
-                            <select class="form-control" id="Password">
+                            <select class="form-control" id="Password" name = "categoria">
                                 <option>Selecione o tipo de projeto</option>
-                                <option>Software</option>
-                                <option>Ui</option>
-                                <option>Ux</option>
-                                <option>Hardware</option>
+                                <option value= "Software">Software</option>
+                                <option value= "UI">Ui</option>
+                                <option value= "UX">Ux</option>
+                                <option value= "Hardware">Hardware</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="Password">Participantes</label>
-                            <select class="form-control" id="Password">
+                            <select class="form-control" id="Password" name = "participantes">
                                 <option>Selecione os participantes</option>
-                                <option>mario</option>
-                                <option>joao </option>
-                                <option>lucas</option>
-                                <option>pedro</option>
+                                <option value = "Mario" >mario</option>
+                                <option value = "Joao" >joao </option>
+                                <option value = "Lucas" >lucas</option>
+                                <option value = "Pedro" >pedro</option>
                             </select>
                         </div>
                         <div class="form-group">
                           <label for="Password">Data</label>
-                          <input class="form-control" type="date" id="Password" name="trip-start"
-                            value="<?php $dataEntrega?>"
-                            min="<?php $dataEntrega?>" max="2099-12-31">
+                          <input class="form-control" type="date" id="Password" name="calendario" min="<?php echo $datamin?>" max="<?php echo $datamax ?>" required>
                         </div>
-                        <button type="submit" class="btn btn-primary mr-2">Enviar</button>
+                        <button type="submit" class="btn btn-primary mr-2" name = "Enviar">Enviar</button>
                         <button class="btn btn-dark">Cancelar</button>
                         </form>
                         
