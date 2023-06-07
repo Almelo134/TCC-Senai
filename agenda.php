@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="assets/css/agenda.css">
 
   </head>
-  <body>
+  <body class="sidebar-icon-only">
 
     <div class="container-scroller">
       <nav class="sidebar sidebar-offcanvas" id="sidebar">

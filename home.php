@@ -8,7 +8,8 @@
 }
 
   require 'PHP/conexao/banco.php';
-
+  include 'PHP/projectInfo.php';
+  
 
 ?>
 
@@ -28,7 +29,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="shortcut icon" href="assets/images/favicon.png" />
   </head>
-  <body>
+  <body class="sidebar-icon-only">
     <div class="container-scroller">
 
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -220,8 +221,7 @@
                   <div class="card-body">
                     <div class="d-flex flex-row justify-content-between">
                       <h4 class="card-title mb-1">Projetos abertos</h4>
-                      <p class="text-muted mb-1">Data de Entrega</p>
-                      <p class="text-muted mb-1">Status</p>
+                      <p class="text-muted mb-1">Data de entrega</p>
                     </div>
 
 
@@ -230,31 +230,106 @@
                       <div class="col-12">
                         <div class="preview-list">
 
-                          <!-- unico item -->
-                          <div class="preview-item border-bottom">
-                            <div class="preview-thumbnail">
-                              <div class="preview-icon bg-primary">
-                                <i class="mdi mdi-file-document"></i>
-                              </div>
-                            </div>
-                            <div class="preview-item-content d-sm-flex flex-grow">
-                              <div class="flex-grow">
+                        <style>
+                          /* Estilos para a Modal Box */
+                          .modal {
+                              display: none;
+                              position: fixed;
+                              z-index: 1;
+                              left: 0;
+                              top: 0;
+                              width: 100%;
+                              height: 100%;
+                              overflow: auto;
+                              background-color: rgba(0, 0, 0, 0.4);
+                          }
+                          
+                          .modal-content {
+                              background-color: #191c24;
+                              margin: 15% auto;
+                              padding: 20px;
+                              border: 1px solid #888;
+                              width: 80%;
+                          }
+                          
+                          .close {
+                              color: #aaa;
+                              float: right;
+                              font-size: 28px;
+                              font-weight: bold;
+                          }
+                          
+                          .close:hover,
+                          .close:focus {
+                              color: black;
+                              text-decoration: none;
+                              cursor: pointer;
+                          }
+                        </style>
 
-                                <!-- mostrar o nome do projeto -->
-                                <h6 class="preview-subject"><?php echo "aqui"?></h6>
+                          <!-- unico item --> 
+                          <?php
+                          // Consulta SQL para buscar todos os itens na tabela
+                          $sql = "SELECT * FROM projeto";
 
-                                <!-- Mostrar descrição -->
-                                <p class="text-muted mb-0"><?php echo "aqui"?></p>
-                              </div>
+                          // Executa a consulta SQL
+                          $result = $conn->query($sql);
 
-                              <div class="mr-auto text-sm-center pt-2 pt-sm-0">
+                          // Verifica se a consulta retornou resultados
+                          if ($result->num_rows > 0) {
+                              // Itera sobre os resultados e exibe as informações
+                              while ($row = $result->fetch_assoc()) {
+                                // Aqui você pode acessar as colunas do resultado pelo nome
+                                $id = $row['id'];
+                                $nomeProj = $row['nomeProj'];
+                                $descricao = $row['descricao'];
+                                $categoria = $row['categoria'];
+                                $participantes = $row['participantes'];
+                                $calendario = $row['calendario'];
 
-                                <p class="text-muted">Data de Entrega</p>
-                                <!-- Mostrar data de entrega -->
-                                <p class="text-muted mb-0"><?php ?></p>
-                              </div>
-                            </div>
-                          </div>
+                                // Faça o que desejar com as informações do item
+                                echo '<div class="preview-item border-bottom" onclick="openModal(' . $id . ')">';
+                                echo '  <div class="preview-thumbnail">';
+                                echo '    <div class="preview-icon bg-primary">';
+                                echo '      <i class="mdi mdi-file-document"></i>';
+                                echo '    </div>';
+                                echo '  </div>';
+                                echo '  <div class="preview-item-content d-sm-flex flex-grow">';
+                                echo '    <div class="flex-grow">';
+                                echo '      <h6 class="preview-subject">' . $nomeProj . '</h6>';
+                                echo '      <p class="text-muted mb-0">' . $descricao . '</p>';
+                                echo '    </div>';
+                                echo '    <div class="mr-auto text-sm-center pt-2 pt-sm-0">';
+                                echo '      <p class="text-muted mb-0">' . $calendario . '</p>';
+                                echo '      <div id="myModal-' . $id . '" class="modal">';
+                                echo '        <div class="modal-content">';
+                                echo '          <span class="close" onclick="closeModal(' . $id . ')">&times;</span>';
+                                echo '          <h3>Dados do Projeto</h3>';
+                                echo '          <p class="modalText"><strong>Nome do Projeto:</strong> ' . $nomeProj . '</p>';
+                                echo '          <p><strong>Descrição:</strong> ' . $descricao . '</p>';
+                                echo '          <p><strong>Categoria:</strong> ' . $categoria . '</p>';
+                                echo '          <p><strong>Participantes:</strong> ' . $participantes . '</p>';
+                                echo '          <p><strong>Calendário:</strong> ' . $calendario . '</p>';
+                                echo '        </div>';
+                                echo '      </div>';
+                                echo '      <script>';
+                                echo '        function openModal(id) {';
+                                echo '          document.getElementById("myModal-" + id).style.display = "block";';
+                                echo '        }';
+                                echo '        function closeModal(id) {';
+                                echo '          document.getElementById("myModal-" + id).style.display = "none";';
+                                echo '        }';
+                                echo '      </script>';
+                                echo '    </div>';
+                                echo '  </div>';
+                                echo '</div>';
+                              }
+                          } else {
+                              echo "Nenhum resultado encontrado.";
+                          }
+
+                          ?>
+                          
                         </div>
                       </div>
                     </div>

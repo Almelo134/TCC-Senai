@@ -1,4 +1,5 @@
 <?php
+  require 'PHP/conexao/banco.php';
 
   session_start();
 
@@ -6,12 +7,103 @@
     header("Location: index.php");
     exit();
 }
-  
-  require 'PHP/conexao/banco.php';
 
   $dataEntrega = date('d/m/Y');
 
-?>
+  // Função para conectar ao banco de dados
+  function conectarBancoDados() {
+      $host = "localhost";
+      $usuario = "root";
+      $senha = "";
+      $banco = "gestaoativ";
+  
+      $conexao = new mysqli($host, $usuario, $senha, $banco);
+      if ($conexao->connect_error) {
+          die("Falha na conexão com o banco de dados: " . $conexao->connect_error);
+      }
+  
+      return $conexao;
+  }
+  
+  // Obter as opções armazenadas no banco de dados
+  function obterOpcoes() {
+      $conexao = conectarBancoDados();
+  
+      $query = "SELECT nomeSetor FROM setor";
+      $result = $conexao->query($query);
+  
+      $opcoes = array();
+      if ($result->num_rows > 0) {
+          while ($row = $result->fetch_assoc()) {
+              $opcoes[] = $row["nomeSetor"];
+          }
+      }
+  
+      $conexao->close();
+  
+      return $opcoes;
+  }
+  
+  // Atualizar as opções no banco de dados
+  function atualizarOpcoes($opcoes) {
+      $conexao = conectarBancoDados();
+      $conexao->query("TRUNCATE TABLE setor");
+  
+      // Inserir as novas opções na tabela
+      $query = "INSERT INTO setor (nomeSetor) VALUES (?)";
+      header('location: config.php');
+      $stmt = $conexao->prepare($query);
+      $stmt->bind_param("s", $nome);
+  
+      foreach ($opcoes as $opcao) {
+          $nome = $opcao;
+          $stmt->execute();
+      }
+  
+      $conexao->close();
+  }
+
+  // Função para deletar opções do banco de dados
+function deletarOpcoes($opcoes) {
+  $conexao = conectarBancoDados();
+
+  // Deletar as opções da tabela
+  $query = "DELETE FROM setor WHERE nomeSetor IN (?)";
+  $stmt = $conexao->prepare($query);
+  $stmt->bind_param("s", $opcao);
+
+  foreach ($opcoes as $opcao) {
+      $stmt->execute();
+  }
+
+  $conexao->close();
+}
+  
+  // Verificar se a requisição é para adicionar uma nova opção
+  if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["nova_opcao"])) {
+      $novaOpcao = $_POST["nova_opcao"];
+  
+      if (empty($novaOpcao)) {
+          echo "Campo inválido";
+          exit;
+      }
+  
+      $opcoes = obterOpcoes();
+      $opcoes[] = $novaOpcao;
+      atualizarOpcoes($opcoes);
+  }
+  
+  // Verificar se a requisição é para deletar opções selecionadas
+  if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["deletar_opcao"])) {
+    $selecionadas = $_POST["selecionadas"];
+
+    $opcoes = obterOpcoes();
+    $opcoes = array_intersect($opcoes, $selecionadas); // Filtrar apenas as opções selecionadas
+    deletarOpcoes($opcoes);
+}
+  // Preencher o select com as opções do banco de dados
+  $opcoes = obterOpcoes();
+  ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +117,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   </head>
-  <body>
+  <body class="sidebar-icon-only">
     <div class="container-scroller">
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
@@ -210,11 +302,10 @@
                   <div class="card">
                     <div class="card-body">
 
-                    <h3>Opções</h3>
+                    <h3>Configurações</h3>
                     
-                    <h5>Funcionários</h5>
+                    <h5>Setores</h5>
                     <select class="form-control col-2" id="select"></select>
-
 
                     <h6>Adicionar Setor</h6>
                     <input class="form-control col-2" type="text" id="nova-opcao">
@@ -223,9 +314,87 @@
                     <h6>Remover Setor</h6>
                     <button id="remover-opcao">Remover</button>
 
-                    <script>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            var selectElement = document.getElementById("select");
+            var adicionarOpcaoButton = document.getElementById("adicionar-opcao");
+            var removerOpcaoButton = document.getElementById("remover-opcao");
+
+            function atualizarSelect() {
+              selectElement.innerHTML = "";
+              <?php foreach ($opcoes as $opcao): ?>
+                var option = document.createElement("option");
+                option.value = "<?php echo $opcao; ?>";
+                option.text = "<?php echo $opcao; ?>";
+                selectElement.appendChild(option);
+              <?php endforeach; ?>
+            }
+
+            atualizarSelect();
+
+            adicionarOpcaoButton.addEventListener("click", function() {
+              var novaOpcao = document.getElementById("nova-opcao").value;
+
+              if (novaOpcao === "") {
+                alert("Campo inválido");
+                return;
+              }
+
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                  opcoes = JSON.parse(this.responseText);
+                  atualizarSelect();
+                  document.getElementById("nova-opcao").value = "";
+                }
+              };
+              xhttp.open("POST", "<?php echo $_SERVER["PHP_SELF"]; ?>", true);
+              xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+              xhttp.send("nova_opcao=" + novaOpcao);
+            });
+
+            removerOpcaoButton.addEventListener("click", function() {
+              var selecionadas = Array.from(selectElement.selectedOptions).map(function(option) {
+                return option.value;
+              });
+
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                  opcoes = JSON.parse(this.responseText);
+                  atualizarSelect();
+                }
+              };
+              xhttp.open("POST", "<?php echo $_SERVER["PHP_SELF"]; ?>", true);
+              xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+              // Construindo o payload para envio
+              var payload = "remover_opcao=true&selecionadas=";
+
+              // Codificando o array de selecionadas como JSON
+              var selecionadasJSON = JSON.stringify(selecionadas);
+
+              // Codificando o JSON para que seja seguro como parâmetro da URL
+              var selecionadasEncoded = encodeURIComponent(selecionadasJSON);
+
+              // Concatenando o payload codificado com as selecionadas
+              payload += selecionadasEncoded;
+
+              xhttp.send(payload);
+            });
+          });
+        </script>
+
+                    <!-- <script>
                         // Obter as opções armazenadas no localStorage (ou sessionStorage)
-                        var opcoes = JSON.parse(localStorage.getItem("opcoes")) || ["Selecione um setor"];
+                        var opcoes = JSON.parse(localStorage.getItem("opcoes")) || ["Selecione o setor" ];
 
                         document.addEventListener("DOMContentLoaded", function() {
                         var selectElement = document.getElementById("select");
@@ -281,7 +450,8 @@
                             localStorage.setItem("opcoes", JSON.stringify(opcoes));
                         });
                         });
-                    </script>
+                    </script> -->
+
                     </div>
                   </div>
                 </div>

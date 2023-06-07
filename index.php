@@ -49,7 +49,7 @@ if (isset($_POST['login'])) {
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Corona Admin</title>
+    <title>Login</title>
 
     <!-- plugins:css -->
     <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
@@ -68,7 +68,7 @@ if (isset($_POST['login'])) {
                 <h3 class="card-title text-left mb-3">Login</h3>
                 <form method = "POST">
                   <div class="form-group">
-                    <label>Username ou email *</label>
+                    <label>Email *</label>
                     <input type="text" name = "email" class="form-control p_input">
                   </div>
                   <div class="form-group">
@@ -92,7 +92,9 @@ if (isset($_POST['login'])) {
                       <i class="mdi mdi-google-plus"></i> Google </button>
                   </div>
                   <p class="sign-up">Não tem uma conta?<a href="register.php"> Cadastre-se</a></p>
+                  <div>
 
+                  </div>
                   <?php if (isset($mensagem_erro)): ?>
                   <p><?php echo $mensagem_erro; ?></p>
                   <?php endif; ?>

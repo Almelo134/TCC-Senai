@@ -24,7 +24,7 @@
     <link rel="shortcut icon" href="assets/images/favicon.png" />
 
   </head>
-  <body>
+  <body class="sidebar-icon-only">
     <div class="container-scroller">
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
