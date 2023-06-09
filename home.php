@@ -1,21 +1,18 @@
 <?php
-
   session_start();
-
   if (!isset($_SESSION['id_usuario'])) {
     header("Location: index.php");
     exit();
 }
-
-  require 'PHP/conexao/banco.php';
-  include 'PHP/projectInfo.php';
+$id_usuario = $_SESSION['id_usuario'];
+include 'PHP/projectInfo.php';
+include 'PHP/fotoUpload.php';
   
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Admin</title>
@@ -25,250 +22,213 @@
     <!-- <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css"> -->
     <!-- <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css"> -->
 
-  
+    <link rel="stylesheet" href="assets/css/modal.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="shortcut icon" href="assets/images/favicon.png" />
-  </head>
-  <body class="sidebar-icon-only">
+</head>
+
+<body class="sidebar-icon-only">
     <div class="container-scroller">
 
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
 
-      <!-- Adicionar Logo -->
-        <!-- <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+            <!-- Adicionar Logo -->
+            <!-- <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
           <a class="sidebar-brand brand-logo" href="home.php"><img src="assets/images/logo.svg" alt="logo" /></a>
           <a class="sidebar-brand brand-logo-mini" href="home.php"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
         </div> -->
 
 
-        <ul class="nav">
-          <li class="nav-item profile">
-            <div class="profile-desc">
-              <div class="profile-pic">
-                <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src="assets/images/faces/logo.jpeg" alt="">
-                  <span class="count bg-success"></span>
-                </div>
-                <div class="profile-name">
-                  <h5 class="mb-0 font-weight-normal"><?php include 'PHP/addInfo.php'; echo $nome;?></h5>
-                </div>
-              </div>
-              <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-              <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-                <a href="config.php" class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-dark rounded-circle">
-                      <i class="mdi mdi-settings text-primary"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Configurações</p>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="profile.php" class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-dark rounded-circle">
-                      <i class="mdi mdi-onepassword  text-info"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Mudar senha</p>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-dark rounded-circle">
-                      <i class="mdi mdi-calendar-today text-success"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Lista de afazeres</p>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li class="nav-item nav-category">
-            <span class="nav-link">Navegação</span>
-          </li>
-          <li class="nav-item menu-items">
-            <a class="nav-link" href="home.php">
-              <span class="menu-icon">
-                <i class="mdi mdi-speedometer"></i>
-              </span>
-              <span class="menu-title">Home</span>
-            </a>
-          </li>
-
-
-          <li class="nav-item menu-items">
-            <a class="nav-link" href="blank-page.php">
-              <span class="menu-icon">
-                <i class="mdi mdi-contacts"></i>
-              </span>
-              <span class="menu-title">Pagina em branco</span>
-            </a>
-          </li>
-
-
-          <li class="nav-item menu-items">
-            <a class="nav-link" href="profile.php">
-              <span class="menu-icon">
-                <i class="mdi mdi-account-outline"></i>
-              </span>
-              <span class="menu-title">Perfil</span>
-            </a>
-          </li>
-
-          <li class="nav-item menu-items">
-            <a class="nav-link" href="funcionario.php">
-              <span class="menu-icon">
-                <i class="mdi mdi-account-outline"></i>
-              </span>
-              <span class="menu-title">Funcionários</span>
-            </a>
-          </li>
-
-
-        <!-- apagar -->
-          <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-              <span class="menu-icon">
-                <i class="mdi mdi-security"></i>
-              </span>
-              <span class="menu-title">User Pages</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="auth">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Pagina em branco </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> login </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Registrar </a></li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </nav>
-
-      <div class="container-fluid page-body-wrapper">
-
-        <nav class="navbar p-0 fixed-top d-flex flex-row">
-          <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo-mini" href="home.php"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
-          </div>
-          <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-              <span class="mdi mdi-menu"></span>
-            </button>
-            
-            <ul class="navbar-nav navbar-nav-right">
-              <li class="nav-item dropdown d-none d-lg-block">
-                <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" href="devSoft.php">+ Criar novo projeto</a>
-                  </a>
-              </li>
-
-
-              <li class="nav-item dropdown">
-                <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
-                  <div class="navbar-profile">
-                    <img class="img-xs rounded-circle" src="assets/images/faces/logo.jpeg" alt="">
-                    <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php print $nome; ?></p>
-                    <i class="mdi mdi-menu-down d-none d-sm-block"></i>
-                  </div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                  <h6 class="p-3 mb-0">Profile</h6>
-                  <div class="dropdown-divider"></div>
-                  <a href="config.php" class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-settings text-success"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Configurações</p>
-                    </div>
-                  </a> 
-                 <div class = "logout" onclick="location.href='PHP/logout.php'"> 
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                        <div class="preview-icon bg-dark rounded-circle">
-                            <i class="mdi mdi-logout text-danger"></i>
-                          </div>
+            <ul class="nav">
+                <li class="nav-item profile">
+                    <div class="profile-desc">
+                        <div class="profile-pic">
+                            <div class="count-indicator">
+                                <img class="img-xs rounded-circle "
+                                    src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?>>
+                                <span class="count bg-success"></span>
+                            </div>
+                            <div class="profile-name">
+                                <h5 class="mb-0 font-weight-normal"><?php include 'PHP/addInfo.php'; echo $nome;?></h5>
+                            </div>
                         </div>
-                          <div class="preview-item-content">
-                          <p class="preview-subject mb-1">Log out</p>
+                        <a href="#" id="profile-dropdown" data-toggle="dropdown"><i
+                                class="mdi mdi-dots-vertical"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
+                            aria-labelledby="profile-dropdown">
+                            <a href="config.php" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-settings text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Configurações</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="profile.php" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-onepassword  text-info"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Mudar senha</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-calendar-today text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Lista de afazeres</p>
+                                </div>
+                            </a>
                         </div>
-                  </a>
-              </li>
+                    </div>
+                </li>
+                <li class="nav-item nav-category">
+                    <span class="nav-link">Navegação</span>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="home.php">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-speedometer"></i>
+                        </span>
+                        <span class="menu-title">Home</span>
+                    </a>
+                </li>
+
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="profile.php">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-account-outline"></i>
+                        </span>
+                        <span class="menu-title">Perfil</span>
+                    </a>
+                </li>
+
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="funcionario.php">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-account-outline"></i>
+                        </span>
+                        <span class="menu-title">Funcionários</span>
+                    </a>
+                </li>
+
+
+                <!-- apagar -->
+                <li class="nav-item menu-items">
+                    <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-security"></i>
+                        </span>
+                        <span class="menu-title">User Pages</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="auth">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Pagina em
+                                    branco </a></li>
+                            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
+                            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
+                            <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> login </a></li>
+                            <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Registrar </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-              <span class="mdi mdi-format-line-spacing"></span>
-            </button>
-          </div>
         </nav>
-      
-        <div class="main-panel">
-          <div class="content-wrapper">
-            <div class="row">
-              <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex flex-row justify-content-between">
-                      <h4 class="card-title mb-1">Projetos abertos</h4>
-                      <p class="text-muted mb-1">Data de entrega</p>
-                    </div>
+
+        <div class="container-fluid page-body-wrapper">
+
+            <nav class="navbar p-0 fixed-top d-flex flex-row">
+                <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+                    <a class="navbar-brand brand-logo-mini" href="home.php"><img src="assets/images/logo-mini.svg"
+                            alt="logo" /></a>
+                </div>
+                <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
+                        data-toggle="minimize">
+                        <span class="mdi mdi-menu"></span>
+                    </button>
+
+                    <ul class="navbar-nav navbar-nav-right">
+                        <li class="nav-item dropdown d-none d-lg-block">
+                            <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown"
+                                href="devSoft.php">+ Criar novo projeto</a>
+                            </a>
+                        </li>
 
 
-                    <!-- projetos em aberto -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
+                                <div class="navbar-profile">
+                                    <img class="img-xs rounded-circle "
+                                        src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?>>
+                                    <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php print $nome; ?></p>
+                                    <i class="mdi mdi-menu-down d-none d-sm-block"></i>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                                aria-labelledby="profileDropdown">
+                                <h6 class="p-3 mb-0">Profile</h6>
+                                <div class="dropdown-divider"></div>
+                                <a href="config.php" class="dropdown-item preview-item">
+                                    <div class="preview-thumbnail">
+                                        <div class="preview-icon bg-dark rounded-circle">
+                                            <i class="mdi mdi-settings text-success"></i>
+                                        </div>
+                                    </div>
+                                    <div class="preview-item-content">
+                                        <p class="preview-subject mb-1">Configurações</p>
+                                    </div>
+                                </a>
+                                <div class="logout" onclick="location.href='PHP/logout.php'">
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-dark rounded-circle">
+                                                <i class="mdi mdi-logout text-danger"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <p class="preview-subject mb-1">Log out</p>
+                                        </div>
+                                    </a>
+                        </li>
+                    </ul>
+                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                        data-toggle="offcanvas">
+                        <span class="mdi mdi-format-line-spacing"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="main-panel">
+                <div class="content-wrapper">
                     <div class="row">
-                      <div class="col-12">
-                        <div class="preview-list">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex flex-row justify-content-between">
+                                        <h4 class="card-title mb-1">Projetos abertos</h4>
+                                        <p class="text-muted mb-1">Data de entrega</p>
+                                    </div>
 
-                        <style>
-                          /* Estilos para a Modal Box */
-                          .modal {
-                              display: none;
-                              position: fixed;
-                              z-index: 1;
-                              left: 0;
-                              top: 0;
-                              width: 100%;
-                              height: 100%;
-                              overflow: auto;
-                              background-color: rgba(0, 0, 0, 0.4);
-                          }
-                          
-                          .modal-content {
-                              background-color: #191c24;
-                              margin: 15% auto;
-                              padding: 20px;
-                              border: 1px solid #888;
-                              width: 80%;
-                          }
-                          
-                          .close {
-                              color: #aaa;
-                              float: right;
-                              font-size: 28px;
-                              font-weight: bold;
-                          }
-                          
-                          .close:hover,
-                          .close:focus {
-                              color: black;
-                              text-decoration: none;
-                              cursor: pointer;
-                          }
-                        </style>
 
-                          <!-- unico item --> 
-                          <?php
+                                    <!-- projetos em aberto -->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="preview-list">
+                                                <!-- unico item -->
+                                                <?php
                           // Consulta SQL para buscar todos os itens na tabela
                           $sql = "SELECT * FROM projeto";
 
@@ -329,46 +289,42 @@
                           }
 
                           ?>
-                          
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
+
+                    <!-- lista de afazeres -->
+                    <div class="row">
+                        <div class="col-md-12 stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Lista de afazeres</h4>
+                                    <div class="add-items d-flex">
+                                        <input type="text" class="form-control todo-list-input"
+                                            placeholder="Escreva sua tarefa">
+                                        <button class="add btn btn-primary todo-list-add-btn">Adicionar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
-              </div>
-            </div>
 
-            <!-- lista de afazeres -->
-            <div class="row">
-              <div class="col-md-12 stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Lista de afazeres</h4>
-                    <div class="add-items d-flex">
-                      <input type="text" class="form-control todo-list-input" placeholder="Escreva sua tarefa">
-                      <button class="add btn btn-primary todo-list-add-btn">Adicionar</button>
-                    </div>
-                    <div class="list-wrapper">
-                      <ul class="d-flex flex-column-reverse text-white todo-list todo-list-custom">
-          
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-          </div>
-
-          <!-- <footer class="footer">
+                <!-- <footer class="footer">
         
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright <?php print $nome; ?></span>
           </footer> -->
+            </div>
         </div>
-      </div>
     </div>
-    
+
     <!-- plugins:js -->
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="assets/vendors/progressbar.js/progressbar.min.js"></script>
@@ -378,6 +334,7 @@
     <script src="assets/js/settings.js"></script>
     <script src="assets/js/todolist.js"></script>
     <script src="assets/js/dashboard.js"></script>
- 
-  </body>
+
+</body>
+
 </html>

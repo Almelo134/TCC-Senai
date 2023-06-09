@@ -7,8 +7,9 @@
     header("Location: index.php");
     exit();
 }
-
+  $id_usuario = $_SESSION['id_usuario'];
   $dataEntrega = date('d/m/Y');
+  include 'PHP/fotoUpload.php';
 
   // Função para conectar ao banco de dados
   function conectarBancoDados() {
@@ -64,7 +65,7 @@
   }
 
   // Função para deletar opções do banco de dados
-function deletarOpcoes($opcoes) {
+  function deletarOpcoes($opcoes) {
   $conexao = conectarBancoDados();
 
   // Deletar as opções da tabela
@@ -77,7 +78,7 @@ function deletarOpcoes($opcoes) {
   }
 
   $conexao->close();
-}
+  }
   
   // Verificar se a requisição é para adicionar uma nova opção
   if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["nova_opcao"])) {
@@ -100,7 +101,7 @@ function deletarOpcoes($opcoes) {
     $opcoes = obterOpcoes();
     $opcoes = array_intersect($opcoes, $selecionadas); // Filtrar apenas as opções selecionadas
     deletarOpcoes($opcoes);
-}
+  }
   // Preencher o select com as opções do banco de dados
   $opcoes = obterOpcoes();
   ?>
@@ -118,7 +119,7 @@ function deletarOpcoes($opcoes) {
 
   </head>
   <body class="sidebar-icon-only">
-    <div class="container-scroller">
+    <adiv class="container-scroller">
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
           <a class="sidebar-brand brand-logo" href="home.php"><img src="assets/images/logo.svg" alt="logo" /></a>
@@ -129,7 +130,7 @@ function deletarOpcoes($opcoes) {
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src="assets/images/faces/logo.jpeg" alt="">
+                  <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
@@ -184,17 +185,6 @@ function deletarOpcoes($opcoes) {
               <span class="menu-title">Home</span>
             </a>
           </li>
-
-
-          <li class="nav-item menu-items">
-            <a class="nav-link" href="blank-page.php">
-              <span class="menu-icon">
-                <i class="mdi mdi-contacts"></i>
-              </span>
-              <span class="menu-title">Pagina em branco</span>
-            </a>
-          </li>
-
 
           <li class="nav-item menu-items">
             <a class="nav-link" href="profile.php">
@@ -257,7 +247,7 @@ function deletarOpcoes($opcoes) {
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle" src="assets/images/faces/logo.jpeg" alt="">
+                    <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php print $nome; ?></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
@@ -392,80 +382,11 @@ function deletarOpcoes($opcoes) {
           });
         </script>
 
-                    <!-- <script>
-                        // Obter as opções armazenadas no localStorage (ou sessionStorage)
-                        var opcoes = JSON.parse(localStorage.getItem("opcoes")) || ["Selecione o setor" ];
-
-                        document.addEventListener("DOMContentLoaded", function() {
-                        var selectElement = document.getElementById("select");
-
-                        // Função para atualizar as opções no select
-                        function atualizarSelect() {
-                            selectElement.innerHTML = "";
-                              for (var i = 0; i < opcoes.length; i++) { 
-
-                                var option = document.createElement("option");
-                                option.value = opcoes[i];
-                                option.text = opcoes[i];
-                                selectElement.appendChild(option);
-                            
-                          }
-                            
-                        }
-
-                        // Preencher o select com as opções iniciais
-                        atualizarSelect();
-
-                        // Adicionar opção ao array e atualizar o select
-                        document.getElementById("adicionar-opcao").addEventListener("click", function() {
-                          
-                            var novaOpcao = document.getElementById("nova-opcao").value;
-                                 
-                            if( novaOpcao == ""){
-                              alert("Campo inváido");
-                              return;
-                            }
-                            else{
-                              opcoes.push(novaOpcao);
-                            atualizarSelect();
-                            document.getElementById("nova-opcao").value = ""; // Limpar o campo de texto
-
-                            // Armazenar o array atualizado no localStorage (ou sessionStorage)
-                            localStorage.setItem("opcoes", JSON.stringify(opcoes));
-                            }
-                            
-                        });
-
-                        // Remover opções selecionadas do select e do array
-                        document.getElementById("remover-opcao").addEventListener("click", function() {
-                            var selecionadas = Array.from(selectElement.selectedOptions).map(function(option) {
-                            return option.value;
-                            });
-                            opcoes = opcoes.filter(function(value) {
-                            return selecionadas.indexOf(value) === -1;
-                            });
-                            atualizarSelect();
-
-                            // Armazenar o array atualizado no localStorage (ou sessionStorage)
-                            localStorage.setItem("opcoes", JSON.stringify(opcoes));
-                        });
-                        });
-                    </script> -->
-
-                    </div>
-                  </div>
-                </div>
-            </div>
-          </div>
-        
           <!-- <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright <?php print $nome; ?></span>
             </div>
           </footer> -->
-        </div>
-    </div>
-
     
     <!-- plugins:js -->
 

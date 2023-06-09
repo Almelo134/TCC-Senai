@@ -5,10 +5,10 @@
   if (!isset($_SESSION['id_usuario'])) {
     header("Location: index.php");
     exit();
-}
-  
+  }
+  $id_usuario = $_SESSION['id_usuario'];
+  include 'PHP/fotoUpload.php';
   require 'PHP/conexao/banco.php';
-
   $dataEntrega = date('d/m/Y');
 
 ?>
@@ -36,7 +36,7 @@
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src="assets/images/faces/logo.jpeg" alt="">
+                  <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
@@ -164,7 +164,7 @@
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle" src="assets/images/faces/logo.jpeg" alt="">
+                    <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php print $nome; ?></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>

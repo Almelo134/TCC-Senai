@@ -4,7 +4,12 @@
     header("Location: index.php");
     exit();
 }
+$id_usuario = $_SESSION['id_usuario'];
+include 'PHP/fotoUpload.php';
+require 'PHP/conexao/banco.php';
+include 'PHP/updateProfile.php';
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +26,7 @@
 
   </head>
   <body class="sidebar-icon-only">
+
     <div class="container-scroller">
 
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -33,7 +39,7 @@
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src="assets/images/faces/logo.jpeg" alt="">
+                  <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
@@ -148,7 +154,7 @@
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle" src="assets/images/faces/logo.jpeg" alt="">
+                    <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php echo $nome;?></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
@@ -193,53 +199,124 @@
           <div class="content-wrapper">
             <div class="row p-2">
               <div class="card col-sm-2 grid-margin pt-4">
-                <img class="img-xs-12" src="assets/images/faces/logo.jpeg"></img>
-                <div class="card align-items-buttom pr-5 ">
-                  <div class="card-body mb-6 ">
-                    <div class="form-group">
-                      <label for="Username">Nome:<?php print $nome; ?></label>
+                <style>
+                  .image-wrapper {
+                      position: relative;
+                      overflow: hidden;
+                  }
 
-                    </div>
-                    <div class="form-group">
-                      <label for="Email">Email:<?php print $email; ?></label>
-                    </div>
-                    <div class="form-group">
-                      <label for="cellphone">Telefone:</label>
-                      <label></label>
-                    </div>
+                  .card img {
+                    display: block;
+                    width: 100%;
+                    height: auto;
+                    max-width: 100%;
+                  }
+
+                  .card .overlay {
+                      position: absolute;
+                      top: 0;
+                      left: 0;
+                      width: 100%;
+                      height: 100%;
+                      background-color: rgba(0, 0, 0, 0.5);
+                      opacity: 0;
+                      transition: opacity 0.3s;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      color: #fff;
+                      font-size: 14px;
+                      cursor: pointer;
+                      border-radius: 15px;
+                  }
+
+                  .card .image-wrapper:hover .overlay {
+                      opacity: 1;
+                  }
+              </style>
+
+
+            <form action="" method="POST" enctype="multipart/form-data">
+                <div class="card col-sm-12 grid-margin pt-4">
+                    <div class="image-wrapper">
+                        <?php
+                        $imagemPerfil = 'assets/images/faces/'.$perfilLogado.'.'.$extensaoPadrao;
+                        if (isset($_POST['enviar']) && isset($_FILES['file'])) {
+                            $arquivo = $_FILES['file'];
+                            $extensao = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
+
+                            if (in_array(strtolower($extensao), $ex_permitidos)) {
+                                move_uploaded_file($arquivo['tmp_name'], 'assets/images/faces/'.$perfilLogado.'.jpg');
+                            }
+                        }
+                        if (file_exists($imagemPerfil)) {
+                            echo '<img class="img-xs-12" id="perfil-img" src="'.$imagemPerfil.'">';
+                        } else {
+                            echo '<img class="img-xs-12" id="perfil-img" src="'.$imagemPadrao.'">';
+                        }
+                        ?>
+                        <label for="file" class="overlay">Trocar foto de perfil</label>
+                        <input type="file" id="file" name="file" style="display: none;" onchange="trocarImagem(event)"> 
+                      </div>
+                      <input type="submit" name="enviar" value="Enviar" id="enviar-btn" style="display: none;" class="btn btn-primary"> 
+                </div>
+            </form>
+
+            <script>
+              function trocarImagem(event) {        
+                const input = event.target;
+                  if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                      document.getElementById('perfil-img').setAttribute('src', e.target.result);
+                      document.getElementById('enviar-btn').style.display = 'inline-block';
+                      }
+                      reader.readAsDataURL(input.files[0]);
+                  }
+                }
+            </script>
+
+              <div class="card align-items-buttom pr-5 ">
+                <div class="card-body mb-6 ">
+                  <div class="form-group">
+                    <label for="Username">Nome:<?php print $nome; ?></label>
+
+                  </div>
+                  <div class="form-group">
+                    <label for="Email">Email:<?php print $email; ?></label>
                   </div>
                 </div>
               </div>
-
-              <div class="col-lg-10 grid-margin align-items-buttom">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Alterar dados da conta</h4>
-                    <form class="forms-sample">
-                      <div class="form-group">
-                        <label for="Username">Username</label>
-                        <input type="text" class="form-control" id="Username" placeholder="Username">
-                      </div>
-                      <div class="form-group">
-                        <label for="Email">Email</label>
-                        <input type="email" class="form-control" id="Email" placeholder="Email">
-                      </div>
-                      <div class="form-group">
-                        <label for="Password">senha</label>
-                        <input type="password" class="form-control" id="Password" placeholder="Senha">
-                      </div>
-                      <div class="form-group">
-                        <label for="ConfPassword">Confirmar senha</label>
-                        <input type="password" class="form-control" id="ConfPassword" placeholder="Confirmar Senha">
-                      </div>      
-                      <button type="submit" class="btn btn-primary mr-2">Enviar</button>
-                      <button class="btn btn-dark">Cancelar</button>
-                    </form>
-                  </div>
-              </div>
-
             </div>
-          </div>
+
+            <div class="col-lg-10 grid-margin align-items-buttom">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Alterar dados da conta</h4>
+                  <form action="" method="POST" class="forms-sample">
+                    <div class="form-group">
+                      <label for="Username">Username</label>
+                      <input type="text" class="form-control" id="Username" name="username" placeholder="<?php print $nome; ?>">
+                    </div>
+                    <div class="form-group">
+                      <label for="Email">Email</label>
+                      <input type="email" class="form-control" id="Email" name="email" placeholder="<?php print $email; ?>">
+                    </div>
+                    <div class="form-group">
+                      <label for="Password">Senha</label>
+                      <input type="password" class="form-control" id="Password" name="senha" placeholder="Senha">
+                    </div>
+                    <div class="form-group">
+                      <label for="ConfPassword">Confirmar senha</label>
+                      <input type="password" class="form-control" id="ConfPassword" name="confirSenha" placeholder="Confirmar Senha">
+                    </div>      
+                    <button type="submit" name="update" id="update" class="btn btn-primary mr-2">Enviar</button>
+                    <button class="btn btn-dark">Cancelar</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
 
           <!-- <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
@@ -247,9 +324,9 @@
               </div>
           </footer> -->
 
-        </div>
-      </div>
-    </div>
+       </div>
+     </div>
+   </div>
 
     
     <!-- plugins:js -->
