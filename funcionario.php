@@ -140,6 +140,15 @@ if ($result->num_rows > 0) {
                     </a>
                 </li>
 
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="agenda.php">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-account-outline"></i>
+                        </span>
+                        <span class="menu-title">Agenda</span>
+                    </a>
+                </li>
+
 
 
                 <li class="nav-item menu-items">
@@ -235,79 +244,149 @@ if ($result->num_rows > 0) {
                                     <div class=" border-bottom ">
                                         <div class="title">
                                             <h3>Funcionários</h3>
-                                            <select class="form-control col-2" id="categoria">
-                                                <?php
-                                                // Loop pelo array de categorias e gera as opções do select
-                                                foreach ($categorias as $categoria) {
-                                                    echo '<option value="' . $categoria . '">' . $categoria . '</option>';
-                                                }
-                                                ?>
-                                             </select>
-                                             <div class="row">
-                                                 <div class="col-12">
-                                                    <!-- projetos em aberto -->
-                                                    <div class="preview-list">
-                                                                     <?php
-                                                                        $query = 'SELECT * FROM funcionario';
-                                                                        $result = $conn->query($query);
-                                                                        if ($result->num_rows > 0) {
-                                                                            while ($row = $result->fetch_assoc()) {
-                                                                            
-                                                                                $id = $row['id'];
-                                                                                $username = $row['username'];
-                                                                                $email = $row['email'];
-                                                                                $telefone = $row['telefone'];
-                                                                                $endereco = $row['endereco'];
-                                                                                $setor = $row['setor'];
-                                                                                $cargo = $row['cargo'];
-                                                                                $carga_horaria = $row['carga_horaria'];
-                                                                                echo '<div class="preview-item border-bottom" onclick="openModal(' . $id . ')">';
-                                                                                echo '  <div class="preview-thumbnail">';
-                                                                                echo '    <div class="preview-icon bg-primary align-left">';
-                                                                                echo '      <i class="mdi mdi-account"></i>';
-                                                                                echo '    </div>';
-                                                                                echo '  </div>';
-                                                                                echo '  <div class="preview-item-content d-sm-flex flex-grow">';
-                                                                                echo '    <div class="flex-grow">';
-                                                                                echo '      <h6 class="preview-subject">' . $username . '</h6>';
-                                                                                echo '      <p class="text-muted mb-0">' . $email . '</p>';
-                                                                                echo '    </div>';
-                                                                                echo '  <div class="preview-item-content d-sm-flex flex-grow">';
-                                                                                echo '    <div class="flex-grow">';
-                                                                                echo '      <p class="text-muted mb-0">' . $setor . '</p>';
-                                                                                echo '    <div class="mr-auto text-sm-center pt-2 pt-sm-0">';
-                                                                                echo '      <p class="text-muted mb-0">' . $telefone . '</p>';
-                                                                                echo '      <div id="myModal-' . $id . '" class="modal">';
-                                                                                echo '        <div class="modal-content">';
-                                                                                echo '          <span class="close" onclick="closeModal(' . $id . ')">&times;</span>';
-                                                                                echo '          <h3>Dados do Projeto</h3>';
-                                                                                echo '          <p class="modalText"><strong>Nome:</strong> ' . $username . '</p>';
-                                                                                echo '          <p><strong>Email:</strong> ' . $email . '</p>';
-                                                                                echo '          <p><strong>Telefone:</strong> ' . $telefone . '</p>';
-                                                                                echo '          <p><strong>Endereço:</strong> ' . $endereco . '</p>';
-                                                                                echo '          <p><strong>Setor:</strong> ' . $setor . '</p>';
-                                                                                echo '          <p><strong>Cargo:</strong> ' . $cargo . '</p>';
-                                                                                echo '          <p><strong>Caga horária:</strong> ' . $carga_horaria . '</p>';
-                                                                                echo '        </div>';
-                                                                                echo '      </div>';
-                                                                                echo '      <script>';
-                                                                                echo '        function openModal(id) {';
-                                                                                echo '          document.getElementById("myModal-" + id).style.display = "block";';
-                                                                                echo '        }';
-                                                                                echo '        function closeModal(id) {';
-                                                                                echo '          document.getElementById("myModal-" + id).style.display = "none";';
-                                                                                echo '        }';
-                                                                                echo '      </script>';
-                                                                                echo '    </div>';
-                                                                                echo '  </div>';
-                                                                                echo '</div>';
-                                                                                    }
-                                                                                } else {
-                                                                                    echo "Nenhum resultado encontrado.";
-                                                                                }
-                                                                                $conn->close();
-                                                                            ?>
-                                                    </div>
+                                            <form method="POST" action="">                                    
+                                                <select class="form-control col-4" name="categoria" id="categoria">
+                                                    <option value="">Selecione o Setor</option>
+                                                    <?php
+                                                        // Loop pelo array de categorias e gera as opções do select
+                                                        foreach ($categorias as $categoria) {
+                                                            echo '<option value="' . $categoria . '">' . $categoria . '</option>';
+                                                        }
+                                                    ?>
+                                                </select>
+                                                <button class="btn btn-primary mt-2 mb-2 border-bottom" type="submit">Filtrar</button>
+                                            </form>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                    <?php
+
+                                                    // Verifique se a variável $_POST['categoria'] está definida
+                                                    if (isset($_POST['categoria'])) {
+                                                        $categoriaSelecionada = $_POST['categoria'];
+                                                        
+                                                        // Verifique se a categoria selecionada é "todos"
+                                                        if (empty($categoriaSelecionada) || $categoriaSelecionada == "Todos") {
+                                                            // Execute a consulta SQL para mostrar todos os funcionários
+                                                            $query = "SELECT * FROM funcionario";
+                                                        } else {
+                                                            // Execute a consulta SQL filtrando pelo setor selecionado
+                                                            $query = "SELECT * FROM funcionario WHERE setor = '$categoriaSelecionada'";
+                                                        }
+
+                                                        $result = $conn->query($query);
+
+                                                        if ($result->num_rows > 0) {
+                                                            echo '<div class="preview-list">';
+                                                            while ($row = $result->fetch_assoc()) {
+                                                                $id = $row['id'];
+                                                                $username = $row['username'];
+                                                                $email = $row['email'];
+                                                                $telefone = $row['telefone'];
+                                                                $endereco = $row['endereco'];
+                                                                $setor = $row['setor'];
+                                                                $cargo = $row['cargo'];
+                                                                $carga_horaria = $row['carga_horaria'];
+
+                                                                echo '<div class="preview-item border-bottom" onclick="openModal(' . $id . ')">';
+                                                                echo '  <div class="preview-thumbnail">';
+                                                                echo '    <div class="preview-icon bg-primary align-left">';
+                                                                echo '      <i class="mdi mdi-account"></i>';
+                                                                echo '    </div>';
+                                                                echo '  </div>';
+                                                                echo '  <div class="preview-item-content d-sm-flex flex-grow">';
+                                                                echo '    <div class="flex-grow">';
+                                                                echo '      <h6 class="preview-subject">' . $username . '</h6>';
+                                                                echo '      <p class="text-muted mb-0">' . $email . '</p>';
+                                                                echo '    </div>';
+                                                                echo '    <div>';
+                                                                echo '      <p class="text-muted mb-0">' . $setor . '</p>';
+                                                                echo '      <p class="text-muted mb-0">' . $telefone . '</p>';
+                                                                echo '      <div id="myModal-' . $id . '" class="modal">';
+                                                                echo '        <div class="modal-content">';
+                                                                echo '          <span class="close" onclick="closeModal(' . $id . ')">&times;</span>';
+                                                                echo '          <h3>Dados do Projeto</h3>';
+                                                                echo '          <p class="modalText"><strong>Nome:</strong> ' . $username . '</p>';
+                                                                echo '          <p><strong>Email:</strong> ' . $email . '</p>';
+                                                                echo '          <p><strong>Telefone:</strong> ' . $telefone . '</p>';
+                                                                echo '          <p><strong>Endereço:</strong> ' . $endereco . '</p>';
+                                                                echo '          <p><strong>Setor:</strong> ' . $setor . '</p>';
+                                                                echo '          <p><strong>Cargo:</strong> ' . $cargo . '</p>';
+                                                                echo '          <p><strong>Carga horária:</strong> ' . $carga_horaria . '</p>';
+                                                                echo '        </div>';
+                                                                echo '      </div>';
+                                                                echo '      <script>';
+                                                                echo '        function openModal(id) {';
+                                                                echo '          document.getElementById("myModal-" + id).style.display = "block";';
+                                                                echo '        }';
+                                                                echo '        function closeModal(id) {';
+                                                                echo '          document.getElementById("myModal-" + id).style.display = "none";';
+                                                                echo '        }';
+                                                                echo '      </script>';
+                                                                echo '    </div>';
+                                                                echo '  </div>';
+                                                                echo '</div>';
+                                                            }
+                                                            echo '</div>';
+                                                        } else {
+                                                            echo "Nenhum funcionário encontrado.";
+                                                        }
+                                                    } else {
+                                                        $query = "SELECT * FROM funcionario";
+                                                        $result = $conn->query($query);
+                                                        if ($result->num_rows > 0) {
+                                                            echo '<div class="preview-list">';
+                                                            while ($row = $result->fetch_assoc()) {
+                                                                $id = $row['id'];
+                                                                $username = $row['username'];
+                                                                $email = $row['email'];
+                                                                $telefone = $row['telefone'];
+                                                                $endereco = $row['endereco'];
+                                                                $setor = $row['setor'];
+                                                                $cargo = $row['cargo'];
+                                                                $carga_horaria = $row['carga_horaria'];
+
+                                                                echo '<div class="preview-item border-bottom" onclick="openModal(' . $id . ')">';
+                                                                echo '  <div class="preview-thumbnail">';
+                                                                echo '    <div class="preview-icon bg-primary align-left">';
+                                                                echo '      <i class="mdi mdi-account"></i>';
+                                                                echo '    </div>';
+                                                                echo '  </div>';
+                                                                echo '  <div class="preview-item-content d-sm-flex flex-grow">';
+                                                                echo '    <div class="flex-grow">';
+                                                                echo '      <h6 class="preview-subject">' . $username . '</h6>';
+                                                                echo '      <p class="text-muted mb-0">' . $email . '</p>';
+                                                                echo '    </div>';
+                                                                echo '    <div>';
+                                                                echo '      <p class="text-muted mb-0">' . $setor . '</p>';
+                                                                echo '      <p class="text-muted mb-0">' . $telefone . '</p>';
+                                                                echo '      <div id="myModal-' . $id . '" class="modal">';
+                                                                echo '        <div class="modal-content">';
+                                                                echo '          <span class="close" onclick="closeModal(' . $id . ')">&times;</span>';
+                                                                echo '          <h3>Dados do Projeto</h3>';
+                                                                echo '          <p class="modalText"><strong>Nome:</strong> ' . $username . '</p>';
+                                                                echo '          <p><strong>Email:</strong> ' . $email . '</p>';
+                                                                echo '          <p><strong>Telefone:</strong> ' . $telefone . '</p>';
+                                                                echo '          <p><strong>Endereço:</strong> ' . $endereco . '</p>';
+                                                                echo '          <p><strong>Setor:</strong> ' . $setor . '</p>';
+                                                                echo '          <p><strong>Cargo:</strong> ' . $cargo . '</p>';
+                                                                echo '          <p><strong>Carga horária:</strong> ' . $carga_horaria . '</p>';
+                                                                echo '        </div>';
+                                                                echo '      </div>';
+                                                                echo '      <script>';
+                                                                echo '        function openModal(id) {';
+                                                                echo '          document.getElementById("myModal-" + id).style.display = "block";';
+                                                                echo '        }';
+                                                                echo '        function closeModal(id) {';
+                                                                echo '          document.getElementById("myModal-" + id).style.display = "none";';
+                                                                echo '        }';
+                                                                echo '      </script>';
+                                                                echo '    </div>';
+                                                                echo '  </div>';
+                                                                echo '</div>';
+                                                            }
+                                                        }
+                                                    }
+                                                    ?>
                                                  </div>
                                              </div>
                                         </div>
@@ -321,15 +400,15 @@ if ($result->num_rows > 0) {
         </div>
 
     <!-- plugins:js -->
-
-    <script src="assets/js/calendar.js"></script>
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="assets/js/off-canvas.js"></script>
     <script src="assets/js/hoverable-collapse.js"></script>
     <script src="assets/js/misc.js"></script>
     <script src="assets/js/settings.js"></script>
     <script src="assets/js/dashboard.js"></script>
-
+    
+    <!-- apagar -->
+        <script src="assets/js/calendar.js"></script>
 </body>
 
 </html>

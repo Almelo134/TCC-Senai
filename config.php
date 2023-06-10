@@ -10,101 +10,10 @@
   $id_usuario = $_SESSION['id_usuario'];
   $dataEntrega = date('d/m/Y');
   include 'PHP/fotoUpload.php';
+  include 'PHP/setor.php';
+  include 'PHP/cargo.php'
 
-  // Função para conectar ao banco de dados
-  function conectarBancoDados() {
-      $host = "localhost";
-      $usuario = "root";
-      $senha = "";
-      $banco = "gestaoativ";
-  
-      $conexao = new mysqli($host, $usuario, $senha, $banco);
-      if ($conexao->connect_error) {
-          die("Falha na conexão com o banco de dados: " . $conexao->connect_error);
-      }
-  
-      return $conexao;
-  }
-  
-  // Obter as opções armazenadas no banco de dados
-  function obterOpcoes() {
-      $conexao = conectarBancoDados();
-  
-      $query = "SELECT nomeSetor FROM setor";
-      $result = $conexao->query($query);
-  
-      $opcoes = array();
-      if ($result->num_rows > 0) {
-          while ($row = $result->fetch_assoc()) {
-              $opcoes[] = $row["nomeSetor"];
-          }
-      }
-  
-      $conexao->close();
-  
-      return $opcoes;
-  }
-  
-  // Atualizar as opções no banco de dados
-  function atualizarOpcoes($opcoes) {
-      $conexao = conectarBancoDados();
-      $conexao->query("TRUNCATE TABLE setor");
-  
-      // Inserir as novas opções na tabela
-      $query = "INSERT INTO setor (nomeSetor) VALUES (?)";
-      header('location: config.php');
-      $stmt = $conexao->prepare($query);
-      $stmt->bind_param("s", $nome);
-  
-      foreach ($opcoes as $opcao) {
-          $nome = $opcao;
-          $stmt->execute();
-      }
-  
-      $conexao->close();
-  }
-
-  // Função para deletar opções do banco de dados
-  function deletarOpcoes($opcoes) {
-  $conexao = conectarBancoDados();
-
-  // Deletar as opções da tabela
-  $query = "DELETE FROM setor WHERE nomeSetor IN (?)";
-  $stmt = $conexao->prepare($query);
-  $stmt->bind_param("s", $opcao);
-
-  foreach ($opcoes as $opcao) {
-      $stmt->execute();
-  }
-
-  $conexao->close();
-  }
-  
-  // Verificar se a requisição é para adicionar uma nova opção
-  if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["nova_opcao"])) {
-      $novaOpcao = $_POST["nova_opcao"];
-  
-      if (empty($novaOpcao)) {
-          echo "Campo inválido";
-          exit;
-      }
-  
-      $opcoes = obterOpcoes();
-      $opcoes[] = $novaOpcao;
-      atualizarOpcoes($opcoes);
-  }
-  
-  // Verificar se a requisição é para deletar opções selecionadas
-  if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["deletar_opcao"])) {
-    $selecionadas = $_POST["selecionadas"];
-
-    $opcoes = obterOpcoes();
-    $opcoes = array_intersect($opcoes, $selecionadas); // Filtrar apenas as opções selecionadas
-    deletarOpcoes($opcoes);
-  }
-  // Preencher o select com as opções do banco de dados
-  $opcoes = obterOpcoes();
-  ?>
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -204,6 +113,15 @@
             </a>
           </li>
 
+          <li class="nav-item menu-items">
+                    <a class="nav-link" href="agenda.php">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-account-outline"></i>
+                        </span>
+                        <span class="menu-title">Agenda</span>
+                    </a>
+                </li>
+
 
 
           <li class="nav-item menu-items">
@@ -291,19 +209,31 @@
                 <div class="col-md-12 grid-margin stretch-card">
                   <div class="card">
                     <div class="card-body">
+                    <div class="border-bottom">                   
+                      <h3 class="">Configurações</h3>
+                      
+                      <h5>Setores</h5>
+                      <select class="form-control col-2 mt-3 mb-3" id="select"></select>
+                      
+                      <h6>Adicionar Setor</h6>
+                      <input class="form-control col-2 mt-3" type="text" id="nova-opcao">
+                      <button class="btn btn-primary mt-3 mb-3" id="adicionar-opcao">Adicionar</button>
+                      
+                      <h6>Remover Setor</h6>
+                      <button class="btn btn-dark pr-3 mb-3" id="remover-opcao">Remover</button>
+                    </div>
 
-                    <h3>Configurações</h3>
-                    
-                    <h5>Setores</h5>
-                    <select class="form-control col-2" id="select"></select>
-
-                    <h6>Adicionar Setor</h6>
-                    <input class="form-control col-2" type="text" id="nova-opcao">
-                    <button id="adicionar-opcao">Adicionar</button>
-
-                    <h6>Remover Setor</h6>
-                    <button id="remover-opcao">Remover</button>
-
+                      <div class="border-bottom mt-3">                   
+                        <h5>Cargos</h5>
+                        <select class="form-control col-2 mt-3 mb-3" id="select-cargo"></select>
+                        
+                        <h6>Adicionar Cargo</h6>
+                        <input class="form-control col-2 mt-3" type="text" id="nova-opcao-cargo">
+                        <button class="btn btn-primary mt-3 mb-3 " id="adicionar-opcao-cargo">Adicionar</button>
+                        
+                        <h6>Remover Cargo</h6>
+                        <button class="btn btn-dark pr-3 mb-3 " id="remover-opcao-cargo">Remover</button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -366,7 +296,77 @@
               xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
               // Construindo o payload para envio
-              var payload = "remover_opcao=true&selecionadas=";
+              var payload = "remover_opcao=true&select=";
+
+              // Codificando o array de selecionadas como JSON
+              var selecionadasJSON = JSON.stringify(selecionadas);
+
+              // Codificando o JSON para que seja seguro como parâmetro da URL
+              var selecionadasEncoded = encodeURIComponent(selecionadasJSON);
+
+              // Concatenando o payload codificado com as selecionadas
+              payload += selecionadasEncoded;
+
+              xhttp.send(payload);
+            });
+          });
+        </script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            var selectElement = document.getElementById("select-cargo");
+            var adicionarOpcaoButton = document.getElementById("adicionar-opcao-cargo");
+            var removerOpcaoButton = document.getElementById("remover-opcao-cargo");
+
+            function atualizarSelect() {
+              selectElement.innerHTML = "";
+              <?php foreach ($opcoesCargo as $opcao): ?>
+                var option = document.createElement("option");
+                option.value = "<?php echo $opcao; ?>";
+                option.text = "<?php echo $opcao; ?>";
+                selectElement.appendChild(option);
+              <?php endforeach; ?>
+            }
+
+            atualizarSelect();
+
+            adicionarOpcaoButton.addEventListener("click", function() {
+              var novaOpcao = document.getElementById("nova-opcao-cargo").value;
+
+              if (novaOpcao === "") {
+                alert("Campo inválido");
+                return;
+              }
+
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                  opcoesCargo = JSON.parse(this.responseText);
+                  atualizarSelect();
+                  document.getElementById("nova-opcao-cargo").value = "";
+                }
+              };
+              xhttp.open("POST", "<?php echo $_SERVER["PHP_SELF"]; ?>", true);
+              xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+              xhttp.send("nova_opcao_cargo=" + novaOpcao);
+            });
+
+            removerOpcaoButton.addEventListener("click", function() {
+              var selecionadas = Array.from(selectElement.selectedOptions).map(function(option) {
+                return option.value;
+              });
+
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                  opcoesCargo = JSON.parse(this.responseText);
+                  atualizarSelect();
+                }
+              };
+              xhttp.open("POST", "<?php echo $_SERVER["PHP_SELF"]; ?>", true);
+              xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+              // Construindo o payload para envio
+              var payload = "remover_opcao_cargo=true&select_cargo=";
 
               // Codificando o array de selecionadas como JSON
               var selecionadasJSON = JSON.stringify(selecionadas);
@@ -382,11 +382,7 @@
           });
         </script>
 
-          <!-- <footer class="footer">
-            <div class="d-sm-flex justify-content-center justify-content-sm-between">
-              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright <?php print $nome; ?></span>
-            </div>
-          </footer> -->
+
     
     <!-- plugins:js -->
 

@@ -22,7 +22,6 @@ if(isset($_POST['Enviar'])){
             print"<script>location.href='../devSoft.php';</script>";
 
         }else{
-
             die ("Erro no sql" .mysqli_connect_error($conn));
         }
         mysqli_close($conn);

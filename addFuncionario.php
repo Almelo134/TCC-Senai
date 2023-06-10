@@ -5,13 +5,36 @@
   if (!isset($_SESSION['id_usuario'])) {
     header("Location: index.php");
     exit();
-}
-  $id_usuario = $_SESSION['id_usuario'];  
+  }
+  $id_usuario = $_SESSION['id_usuario'];
   include 'PHP/fotoUpload.php';
   require 'PHP/conexao/banco.php';
-  $dataHoje = date('Y-m-d');
-  $datamin = date('Y-m-d', strtotime('-1 day'));
-  $datamax = date('Y-m-d', strtotime('+100 year'));
+  $dataEntrega = date('d/m/Y');
+
+// Configurações do banco de dados
+$servername = "localhost";  // substitua pelo nome do servidor do seu banco de dados
+$username = "root"; // substitua pelo seu nome de usuário do banco de dados
+$password = "";   // substitua pela sua senha do banco de dados
+$dbname = "gestaoativ";     // substitua pelo nome do seu banco de dados
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Query para selecionar os nomes das categorias
+$query = 'SELECT nomeSetor FROM setor';
+
+// Executa a query
+$result = $conn->query($query);
+
+// Verifica se a query retornou resultados
+if ($result->num_rows > 0) {
+    // Array para armazenar os nomes das categorias
+    $categorias = array();
+
+    // Loop pelos resultados e armazena os nomes das categorias no array
+    while ($row = $result->fetch_assoc()) {
+        $categorias[] = $row['nomeSetor'];
+    }
+}
 
 ?>
 
@@ -38,7 +61,7 @@
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg';?>>
+                  <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
@@ -96,7 +119,7 @@
 
 
           <li class="nav-item menu-items">
-            <a class="nav-link" href="blank-page.html">
+            <a class="nav-link" href="blank-page.php">
               <span class="menu-icon">
                 <i class="mdi mdi-contacts"></i>
               </span>
@@ -134,7 +157,6 @@
 
 
 
-
           <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <span class="menu-icon">
@@ -166,11 +188,13 @@
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
               <span class="mdi mdi-menu"></span>
             </button>
+            <ul class="navbar-nav navbar-nav-right">
+              <li class="nav-item dropdown d-none d-lg-block">
+                <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" href="devSoft.php">+ Criar novo projeto</a>
+                  </a>
+              </li>
             
             <ul class="navbar-nav navbar-nav-right">
-            
-
-
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
@@ -218,44 +242,64 @@
                 <div class="col-md-12 grid-margin stretch-card">
                   <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Criar Projeto</h4>
-                        <form action="PHP/projeto.php" method="POST" class="forms-sample">
+                        <h4 class="card-title">Adicionar Funcionário</h4>
+                        <form action="PHP/worker.php" method="POST" class="forms-sample">
                         <div class="form-group">
-                            <label for="Username"> Nome do Projeto </label>
-                            <input type="text" class="form-control" id="Username" name = "nomeProj" placeholder="Projeto">
+                            <label for="username"> Nome do Funcionário </label>
+                            <input type="text" class="form-control" id="username" name = "username" placeholder="Nome">
                         </div>
                         <div class="form-group">
-                            <label for="Email">Descrição</label>
-                            <input type="text" class="form-control" name = "descricao" id="Email" placeholder="Descrição">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control p_input" name = "email" id="email" placeholder="Email">
                         </div>
                         <div class="form-group">
-                            <label for="Password">Tipo de Projeto</label>
-                            <select class="form-control" id="Password" name = "categoria">
-                                <option>Selecione o tipo de projeto</option>
-                                <option value= "Software">Software</option>
-                                <option value= "UI">Ui</option>
-                                <option value= "UX">Ux</option>
-                                <option value= "Hardware">Hardware</option>
+                            <label for="telefone">Telefone</label>
+                            <input type="text" class="form-control" name = "telefone" id="telefone" placeholder="telefone">
+                        </div>
+                        <div class="form-group">
+                            <label for="endereco">Endereço</label>
+                            <input type="text" class="form-control" name = "endereco" id="endereco" placeholder="Endereço">
+                        </div>
+                        <div class="form-group">
+                            <label for="setor">Setor</label>
+                            <select class="form-control" id="setor" name = "setor">
+                                <option>Selecione o Setor</option>
+                                <?php
+                                    // Loop pelo array de categorias e gera as opções do select
+                                    foreach ($categorias as $categoria) {
+                                    echo '<option value="' . $categoria . '">' . $categoria . '</option>';
+                                    }
+                                ?>                               
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="Password">Participantes</label>
-                            <select class="form-control" id="Password" name = "participantes">
-                                <option>Selecione os participantes</option>
-                                <option value = "Mario" >mario</option>
-                                <option value = "Joao" >joao </option>
-                                <option value = "Lucas" >lucas</option>
-                                <option value = "Pedro" >pedro</option>
+                            <label for="cargo">Cargo</label>
+                            <select class="form-control" id="cargo" name = "cargo">
+                                <option>Selecione o Cargo</option>
                             </select>
                         </div>
                         <div class="form-group">
-                          <label for="Password">Data</label>
-                          <input class="form-control" type="date" id="Password" name="calendario" min="<?php echo $datamin?>" max="<?php echo $datamax ?>" required>
+                            <label for="carga_horaria">Carga Horaria</label>
+                            <input type="number" class="form-control" name ="carga_horaria" id="carga_horaria" placeholder="Carga Horaria">  
                         </div>
-                        <button type="submit" class="btn btn-primary mr-2" name = "Enviar">Enviar</button>
+                      
+                        <button type="submit" class="btn btn-primary mr-2" name = "enviarFuncionario">Enviar</button>
                         <button class="btn btn-dark">Cancelar</button>
                         </form>
-                        
+                        <style>
+                        input[type=number]::-webkit-inner-spin-button { 
+                        all: unset; 
+                        min-width: 21px;
+                        min-height: 45px;
+                        margin: 17px;
+                        padding: 0px;
+                        background-image: 
+                        linear-gradient(to top, transparent 0px, transparent 16px, #2a3038 16px, #2a3038 26px, transparent 26px, transparent 35px, #4b5564 35px,#4b5564 36px,transparent 36px, transparent 40px),
+                        linear-gradient(to right, transparent 0px, transparent 10px, #4b5564 10px, #4b5564 11px, transparent 11px, transparent 21px);
+                        transform: rotate(90deg) scale(0.8, 0.9);
+                        cursor:pointer;
+                        }
+                        </style>        
                     </div>
                   </div>
                 </div>
@@ -264,6 +308,10 @@
         </div>
     </div>
 
+    
+    <!-- plugins:js -->
+
+    <script src="assets/js/calendar.js"></script>
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="assets/js/off-canvas.js"></script>
     <script src="assets/js/hoverable-collapse.js"></script>

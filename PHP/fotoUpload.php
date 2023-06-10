@@ -1,8 +1,6 @@
 <?php
-  if (!isset($_SESSION['id_usuario'])) {
-    header("Location: index.php");
-    exit();
-}
+
+$id_usuario = $_SESSION['id_usuario'];
 
 // Lógica para identificar o perfil logado
 $perfilLogado = "$id_usuario";

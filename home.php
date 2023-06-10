@@ -121,6 +121,24 @@ include 'PHP/fotoUpload.php';
                     </a>
                 </li>
 
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="addFuncionario.php">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-account-outline"></i>
+                        </span>
+                        <span class="menu-title">Adicionar Funcionários</span>
+                    </a>
+                </li>
+
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="agenda.php">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-account-outline"></i>
+                        </span>
+                        <span class="menu-title">Agenda</span>
+                    </a>
+                </li>
+
 
                 <!-- apagar -->
                 <li class="nav-item menu-items">
@@ -229,66 +247,66 @@ include 'PHP/fotoUpload.php';
                                             <div class="preview-list">
                                                 <!-- unico item -->
                                                 <?php
-                          // Consulta SQL para buscar todos os itens na tabela
-                          $sql = "SELECT * FROM projeto";
+                                                // Consulta SQL para buscar todos os itens na tabela
+                                                $sql = "SELECT * FROM projeto";
 
-                          // Executa a consulta SQL
-                          $result = $conn->query($sql);
+                                                // Executa a consulta SQL
+                                                $result = $conn->query($sql);
 
-                          // Verifica se a consulta retornou resultados
-                          if ($result->num_rows > 0) {
-                              // Itera sobre os resultados e exibe as informações
-                              while ($row = $result->fetch_assoc()) {
-                                // Aqui você pode acessar as colunas do resultado pelo nome
-                                $id = $row['id'];
-                                $nomeProj = $row['nomeProj'];
-                                $descricao = $row['descricao'];
-                                $categoria = $row['categoria'];
-                                $participantes = $row['participantes'];
-                                $calendario = $row['calendario'];
+                                                // Verifica se a consulta retornou resultados
+                                                if ($result->num_rows > 0) {
+                                                    // Itera sobre os resultados e exibe as informações
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        // Aqui você pode acessar as colunas do resultado pelo nome
+                                                        $id = $row['id'];
+                                                        $nomeProj = $row['nomeProj'];
+                                                        $descricao = $row['descricao'];
+                                                        $categoria = $row['categoria'];
+                                                        $participantes = $row['participantes'];
+                                                        $calendario = $row['calendario'];
 
-                                // Faça o que desejar com as informações do item
-                                echo '<div class="preview-item border-bottom" onclick="openModal(' . $id . ')">';
-                                echo '  <div class="preview-thumbnail">';
-                                echo '    <div class="preview-icon bg-primary">';
-                                echo '      <i class="mdi mdi-file-document"></i>';
-                                echo '    </div>';
-                                echo '  </div>';
-                                echo '  <div class="preview-item-content d-sm-flex flex-grow">';
-                                echo '    <div class="flex-grow">';
-                                echo '      <h6 class="preview-subject">' . $nomeProj . '</h6>';
-                                echo '      <p class="text-muted mb-0">' . $descricao . '</p>';
-                                echo '    </div>';
-                                echo '    <div class="mr-auto text-sm-center pt-2 pt-sm-0">';
-                                echo '      <p class="text-muted mb-0">' . $calendario . '</p>';
-                                echo '      <div id="myModal-' . $id . '" class="modal">';
-                                echo '        <div class="modal-content">';
-                                echo '          <span class="close" onclick="closeModal(' . $id . ')">&times;</span>';
-                                echo '          <h3>Dados do Projeto</h3>';
-                                echo '          <p class="modalText"><strong>Nome do Projeto:</strong> ' . $nomeProj . '</p>';
-                                echo '          <p><strong>Descrição:</strong> ' . $descricao . '</p>';
-                                echo '          <p><strong>Categoria:</strong> ' . $categoria . '</p>';
-                                echo '          <p><strong>Participantes:</strong> ' . $participantes . '</p>';
-                                echo '          <p><strong>Calendário:</strong> ' . $calendario . '</p>';
-                                echo '        </div>';
-                                echo '      </div>';
-                                echo '      <script>';
-                                echo '        function openModal(id) {';
-                                echo '          document.getElementById("myModal-" + id).style.display = "block";';
-                                echo '        }';
-                                echo '        function closeModal(id) {';
-                                echo '          document.getElementById("myModal-" + id).style.display = "none";';
-                                echo '        }';
-                                echo '      </script>';
-                                echo '    </div>';
-                                echo '  </div>';
-                                echo '</div>';
-                              }
-                          } else {
-                              echo "Nenhum resultado encontrado.";
-                          }
+                                                        // Faça o que desejar com as informações do item
+                                                        echo '<div class="preview-item border-bottom" onclick="openModal(' . $id . ')">';
+                                                        echo '  <div class="preview-thumbnail">';
+                                                        echo '    <div class="preview-icon bg-primary">';
+                                                        echo '      <i class="mdi mdi-file-document"></i>';
+                                                        echo '    </div>';
+                                                        echo '  </div>';
+                                                        echo '  <div class="preview-item-content d-sm-flex flex-grow">';
+                                                        echo '    <div class="flex-grow">';
+                                                        echo '      <h6 class="preview-subject">' . $nomeProj . '</h6>';
+                                                        echo '      <p class="text-muted mb-0">' . $descricao . '</p>';
+                                                        echo '    </div>';
+                                                        echo '    <div class="mr-auto text-sm-center pt-2 pt-sm-0">';
+                                                        echo '      <p class="text-muted mb-0">' . $calendario . '</p>';
+                                                        echo '      <div id="myModal-' . $id . '" class="modal">';
+                                                        echo '        <div class="modal-content">';
+                                                        echo '          <span class="close" onclick="closeModal(' . $id . ')">&times;</span>';
+                                                        echo '          <h3>Dados do Projeto</h3>';
+                                                        echo '          <p class="modalText"><strong>Nome do Projeto:</strong> ' . $nomeProj . '</p>';
+                                                        echo '          <p><strong>Descrição:</strong> ' . $descricao . '</p>';
+                                                        echo '          <p><strong>Categoria:</strong> ' . $categoria . '</p>';
+                                                        echo '          <p><strong>Participantes:</strong> ' . $participantes . '</p>';
+                                                        echo '          <p><strong>Calendário:</strong> ' . $calendario . '</p>';
+                                                        echo '        </div>';
+                                                        echo '      </div>';
+                                                        echo '      <script>';
+                                                        echo '        function openModal(id) {';
+                                                        echo '          document.getElementById("myModal-" + id).style.display = "block";';
+                                                        echo '        }';
+                                                        echo '        function closeModal(id) {';
+                                                        echo '          document.getElementById("myModal-" + id).style.display = "none";';
+                                                        echo '        }';
+                                                        echo '      </script>';
+                                                        echo '    </div>';
+                                                        echo '  </div>';
+                                                        echo '</div>';
+                                                    }
+                                                } else {
+                                                    echo "Nenhum resultado encontrado.";
+                                                }
 
-                          ?>
+                                                ?>
 
                                             </div>
                                         </div>

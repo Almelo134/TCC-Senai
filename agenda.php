@@ -123,6 +123,15 @@
             </a>
           </li>
 
+          <li class="nav-item menu-items">
+                    <a class="nav-link" href="agenda.php">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-account-outline"></i>
+                        </span>
+                        <span class="menu-title">Agenda</span>
+                    </a>
+                </li>
+
 
 
           <li class="nav-item menu-items">
