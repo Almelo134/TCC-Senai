@@ -32,3 +32,25 @@
     text-decoration: none !important;
     cursor: pointer !important;
 }
+
+.modal-content-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  
+  .modal-image {
+    flex: 0 0 20px; /* Define a largura desejada para a imagem */
+    margin-right: 20px; /* Adapte a margem conforme necessário */
+  }
+  
+  .modal-info {
+    flex: 1;
+  }
+
+  .imgWorker {
+    width: 16em;
+    height: 16em;
+    flex: 0 0 20px; /* Define a largura desejada para a imagem */
+    margin-right: 20px; /* Adapte a margem conforme necessário */
+  }
+  

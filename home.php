@@ -280,8 +280,7 @@ include 'PHP/fotoUpload.php';
                                                         echo '    <div class="mr-auto text-sm-center pt-2 pt-sm-0">';
                                                         echo '      <p class="text-muted mb-0">' . $calendario . '</p>';
                                                         echo '      <div id="myModal-' . $id . '" class="modal">';
-                                                        echo '        <div class="modal-content">';
-                                                        echo '          <span class="close" onclick="closeModal(' . $id . ')">&times;</span>';
+                                                        echo '        <div class="modal-content">'; 
                                                         echo '          <h3>Dados do Projeto</h3>';
                                                         echo '          <p class="modalText"><strong>Nome do Projeto:</strong> ' . $nomeProj . '</p>';
                                                         echo '          <p><strong>Descrição:</strong> ' . $descricao . '</p>';
@@ -294,17 +293,26 @@ include 'PHP/fotoUpload.php';
                                                         echo '        function openModal(id) {';
                                                         echo '          document.getElementById("myModal-" + id).style.display = "block";';
                                                         echo '        }';
-                                                        echo '        function closeModal(id) {';
-                                                        echo '          document.getElementById("myModal-" + id).style.display = "none";';
-                                                        echo '        }';
                                                         echo '      </script>';
                                                         echo '    </div>';
                                                         echo '  </div>';
                                                         echo '</div>';
+                                                            }
+                                                        echo '</div>';
+                                                        echo '<script>';
+                                                        echo 'window.addEventListener("click", function(event) {';
+                                                        echo '    var modals = document.getElementsByClassName("modal");';
+                                                        echo '    for (var i = 0; i < modals.length; i++) {';
+                                                        echo '        var modal = modals[i];';
+                                                        echo '        if (event.target == modal) {';
+                                                        echo '            modal.style.display = "none";';
+                                                        echo '        }';
+                                                        echo '    }';
+                                                        echo '});';
+                                                        echo '</script>';
+                                                        } else {
+                                                        echo "Nenhum resultado encontrado.";
                                                     }
-                                                } else {
-                                                    echo "Nenhum resultado encontrado.";
-                                                }
 
                                                 ?>
 

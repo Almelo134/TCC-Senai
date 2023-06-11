@@ -21,9 +21,13 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Query para selecionar os nomes das categorias
 $query = 'SELECT nomeSetor FROM setor';
+$queryCargo = 'SELECT nomeCargo FROM cargo';
+
 
 // Executa a query
 $result = $conn->query($query);
+$resultCargo = $conn->query($queryCargo);
+
 
 // Verifica se a query retornou resultados
 if ($result->num_rows > 0) {
@@ -34,6 +38,17 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $categorias[] = $row['nomeSetor'];
     }
+}
+
+// Verifica se a query retornou resultados
+if ($resultCargo->num_rows > 0) {
+  // Array para armazenar os nomes das categorias
+  $categoriasCargo = array();
+
+  // Loop pelos resultados e armazena os nomes das categorias no array
+  while ($row = $resultCargo->fetch_assoc()) {
+      $categoriasCargo[] = $row['nomeCargo'];
+  }
 }
 
 ?>
@@ -235,80 +250,88 @@ if ($result->num_rows > 0) {
             </button>
           </div>
         </nav>
-
-        <div class="main-panel">
-          <div class="content-wrapper">
-            <div class="row">
-                <div class="col-md-12 grid-margin stretch-card">
-                  <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Adicionar Funcionário</h4>
-                        <form action="PHP/worker.php" method="POST" class="forms-sample">
-                        <div class="form-group">
-                            <label for="username"> Nome do Funcionário </label>
-                            <input type="text" class="form-control" id="username" name = "username" placeholder="Nome">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" class="form-control p_input" name = "email" id="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="telefone">Telefone</label>
-                            <input type="text" class="form-control" name = "telefone" id="telefone" placeholder="telefone">
-                        </div>
-                        <div class="form-group">
-                            <label for="endereco">Endereço</label>
-                            <input type="text" class="form-control" name = "endereco" id="endereco" placeholder="Endereço">
-                        </div>
-                        <div class="form-group">
-                            <label for="setor">Setor</label>
-                            <select class="form-control" id="setor" name = "setor">
-                                <option>Selecione o Setor</option>
-                                <?php
-                                    // Loop pelo array de categorias e gera as opções do select
-                                    foreach ($categorias as $categoria) {
-                                    echo '<option value="' . $categoria . '">' . $categoria . '</option>';
+                                    
+          <div class="main-panel">
+              <div class="content-wrapper">
+                  <div class="row">
+                      <div class="col-md-12 grid-margin stretch-card">
+                          <div class="card">
+                              <div class="card-body">
+                                  <h4 class="card-title">Adicionar Funcionário</h4>
+                                  <form action="PHP/worker.php" method="POST" class="forms-sample" enctype="multipart/form-data">
+                                      <div class="form-group">
+                                          <label for="username"> Nome do Funcionário </label>
+                                          <input type="text" class="form-control" id="username" name="username" placeholder="Nome">
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="email">Email</label>
+                                          <input type="text" class="form-control p_input" name="email" id="email" placeholder="Email">
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="telefone">Telefone</label>
+                                          <input type="text" class="form-control" name="telefone" id="telefone" placeholder="telefone">
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="endereco">Endereço</label>
+                                          <input type="text" class="form-control" name="endereco" id="endereco" placeholder="Endereço">
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="setor">Setor</label>
+                                          <select class="form-control" id="setor" name="setor">
+                                              <option>Selecione o Setor</option>
+                                              <?php
+                                              // Loop pelo array de categorias e gera as opções do select
+                                              foreach ($categorias as $categoria) {
+                                                  echo '<option value="' . $categoria . '">' . $categoria . '</option>';
+                                              }
+                                              ?>
+                                          </select>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="cargo">Cargo</label>
+                                          <select class="form-control" id="cargo" name="cargo">
+                                              <option>Selecione o Cargo</option>
+                                              <?php
+                                              // Loop pelo array de categorias e gera as opções do select
+                                              foreach ($categoriasCargo as $categoriaCargo) {
+                                                  echo '<option value="' . $categoriaCargo . '">' . $categoriaCargo . '</option>';
+                                              }
+                                              ?>
+                                          </select>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="carga_horaria">Carga Horaria</label>
+                                          <input type="number" class="form-control" name="carga_horaria" id="carga_horaria" placeholder="Carga Horaria">
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="file">Foto do Funcionário</label>
+                                          <input type="file" id="file" name="file">
+                                      </div>
+                                      <button type="submit" class="btn btn-primary mr-2" name="enviarFuncionario">Enviar</button>
+                                      <button class="btn btn-dark">Cancelar</button>
+                                  </form>
+                                  <style>
+                                    input[type=number]::-webkit-inner-spin-button { 
+                                    all: unset; 
+                                    min-width: 21px;
+                                    min-height: 45px;
+                                    margin: 17px;
+                                    padding: 0px;
+                                    background-image: 
+                                    linear-gradient(to top, transparent 0px, transparent 16px, #2a3038 16px, #2a3038 26px, transparent 26px, transparent 35px, #4b5564 35px,#4b5564 36px,transparent 36px, transparent 40px),
+                                    linear-gradient(to right, transparent 0px, transparent 10px, #4b5564 10px, #4b5564 11px, transparent 11px, transparent 21px);
+                                    transform: rotate(90deg) scale(0.8, 0.9);
+                                    cursor:pointer;
                                     }
-                                ?>                               
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="cargo">Cargo</label>
-                            <select class="form-control" id="cargo" name = "cargo">
-                                <option>Selecione o Cargo</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="carga_horaria">Carga Horaria</label>
-                            <input type="number" class="form-control" name ="carga_horaria" id="carga_horaria" placeholder="Carga Horaria">  
-                        </div>
-                      
-                        <button type="submit" class="btn btn-primary mr-2" name = "enviarFuncionario">Enviar</button>
-                        <button class="btn btn-dark">Cancelar</button>
-                        </form>
-                        <style>
-                        input[type=number]::-webkit-inner-spin-button { 
-                        all: unset; 
-                        min-width: 21px;
-                        min-height: 45px;
-                        margin: 17px;
-                        padding: 0px;
-                        background-image: 
-                        linear-gradient(to top, transparent 0px, transparent 16px, #2a3038 16px, #2a3038 26px, transparent 26px, transparent 35px, #4b5564 35px,#4b5564 36px,transparent 36px, transparent 40px),
-                        linear-gradient(to right, transparent 0px, transparent 10px, #4b5564 10px, #4b5564 11px, transparent 11px, transparent 21px);
-                        transform: rotate(90deg) scale(0.8, 0.9);
-                        cursor:pointer;
-                        }
-                        </style>        
-                    </div>
+                                  </style>  
+                              </div>
+                          </div>
+                      </div>
                   </div>
-                </div>
-            </div>
+              </div>
           </div>
-        </div>
-    </div>
 
-    
+              
     <!-- plugins:js -->
 
     <script src="assets/js/calendar.js"></script>

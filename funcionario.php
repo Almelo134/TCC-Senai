@@ -259,18 +259,39 @@ if ($result->num_rows > 0) {
                                                 <div class="row">
                                                     <div class="col-12">
                                                     <?php
+                                                        // Função para obter o caminho da imagem do funcionário com base no ID
+                                                        function obterCaminhoImagem($id)
+                                                        {
+                                                            $imagemPadrao = 'assets/images/Funcionarios/face.jpg';
 
-                                                    // Verifique se a variável $_POST['categoria'] está definida
-                                                    if (isset($_POST['categoria'])) {
-                                                        $categoriaSelecionada = $_POST['categoria'];
-                                                        
-                                                        // Verifique se a categoria selecionada é "todos"
-                                                        if (empty($categoriaSelecionada) || $categoriaSelecionada == "Todos") {
-                                                            // Execute a consulta SQL para mostrar todos os funcionários
+                                                            // Verifica se o arquivo de imagem existe para o ID do funcionário com as extensões permitidas
+                                                            $extensoesPermitidas = array('jpg', 'jpeg', 'png', 'svg');
+                                                            foreach ($extensoesPermitidas as $extensao) {
+                                                                $caminhoImagem = 'assets/images/Funcionarios/' . $id . '.' . $extensao;
+                                                                if (file_exists($caminhoImagem)) {
+                                                                    return $caminhoImagem;
+                                                                }
+                                                            }
+
+                                                            // Retorna o caminho da imagem padrão caso não exista uma imagem específica para o funcionário
+                                                            return $imagemPadrao;
+                                                        }
+
+                                                        // Verifique se a variável $_POST['categoria'] está definida e não está vazia
+                                                        if (isset($_POST['categoria']) && !empty($_POST['categoria'])) {
+                                                            $categoriaSelecionada = $_POST['categoria'];
+
+                                                            // Verifique se a categoria selecionada é "todos"
+                                                            if ($categoriaSelecionada == "Todos") {
+                                                                // Execute a consulta SQL para mostrar todos os funcionários
+                                                                $query = "SELECT * FROM funcionario";
+                                                            } else {
+                                                                // Execute a consulta SQL filtrando pelo setor selecionado
+                                                                $query = "SELECT * FROM funcionario WHERE setor = '$categoriaSelecionada'";
+                                                            }
+                                                        } else {
+                                                            // Nenhuma categoria selecionada, execute a consulta SQL para mostrar todos os funcionários
                                                             $query = "SELECT * FROM funcionario";
-                                                        } else {
-                                                            // Execute a consulta SQL filtrando pelo setor selecionado
-                                                            $query = "SELECT * FROM funcionario WHERE setor = '$categoriaSelecionada'";
                                                         }
 
                                                         $result = $conn->query($query);
@@ -303,89 +324,52 @@ if ($result->num_rows > 0) {
                                                                 echo '      <p class="text-muted mb-0">' . $telefone . '</p>';
                                                                 echo '      <div id="myModal-' . $id . '" class="modal">';
                                                                 echo '        <div class="modal-content">';
-                                                                echo '          <span class="close" onclick="closeModal(' . $id . ')">&times;</span>';
                                                                 echo '          <h3>Dados do Projeto</h3>';
-                                                                echo '          <p class="modalText"><strong>Nome:</strong> ' . $username . '</p>';
-                                                                echo '          <p><strong>Email:</strong> ' . $email . '</p>';
-                                                                echo '          <p><strong>Telefone:</strong> ' . $telefone . '</p>';
-                                                                echo '          <p><strong>Endereço:</strong> ' . $endereco . '</p>';
-                                                                echo '          <p><strong>Setor:</strong> ' . $setor . '</p>';
-                                                                echo '          <p><strong>Cargo:</strong> ' . $cargo . '</p>';
-                                                                echo '          <p><strong>Carga horária:</strong> ' . $carga_horaria . '</p>';
+                                                                echo '          <div class="modal-content-wrapper">';
+                                                                echo '            <div class="modal-image">';
+                                                                // Inserir a tag <img> dentro da div modal-image
+                                                                $caminhoImagem = obterCaminhoImagem($id);
+                                                                echo '              <img class="imgWorker" src="' . $caminhoImagem . '" alt="Imagem do funcionário">';
+                                                                echo '            </div>';
+                                                                echo '            <div class="modal-info">';
+                                                                echo '              <p class="modalText"><strong>Nome:</strong> ' . $username . '</p>';
+                                                                echo '              <p><strong>Email:</strong> ' . $email . '</p>';
+                                                                echo '              <p><strong>Telefone:</strong> ' . $telefone . '</p>';
+                                                                echo '              <p><strong>Endereço:</strong> ' . $endereco . '</p>';
+                                                                echo '              <p><strong>Setor:</strong> ' . $setor . '</p>';
+                                                                echo '              <p><strong>Cargo:</strong> ' . $cargo . '</p>';
+                                                                echo '              <p><strong>Carga horária:</strong> ' . $carga_horaria . '</p>';
+                                                                echo '            </div>';
+                                                                echo '          </div>';
                                                                 echo '        </div>';
                                                                 echo '      </div>';
-                                                                echo '      <script>';
-                                                                echo '        function openModal(id) {';
-                                                                echo '          document.getElementById("myModal-" + id).style.display = "block";';
-                                                                echo '        }';
-                                                                echo '        function closeModal(id) {';
-                                                                echo '          document.getElementById("myModal-" + id).style.display = "none";';
-                                                                echo '        }';
-                                                                echo '      </script>';
+                                                                echo '<script>';
+                                                                echo 'function openModal(id) {';
+                                                                echo '    var modal = document.getElementById("myModal-" + id);';
+                                                                echo '    modal.style.display = "block";';
+                                                                echo '}';
+                                                                echo '</script>';
                                                                 echo '    </div>';
                                                                 echo '  </div>';
                                                                 echo '</div>';
+                                                                }
+                                                                echo '</div>';
+                                                                echo '<script>';
+                                                                echo 'window.addEventListener("click", function(event) {';
+                                                                echo '    var modals = document.getElementsByClassName("modal");';
+                                                                echo '    for (var i = 0; i < modals.length; i++) {';
+                                                                echo '        var modal = modals[i];';
+                                                                echo '        if (event.target == modal) {';
+                                                                echo '            modal.style.display = "none";';
+                                                                echo '        }';
+                                                                echo '    }';
+                                                                echo '});';
+                                                                echo '</script>';
+                                                            } else {
+                                                                echo 'Nenhum funcionário encontrado.';
                                                             }
-                                                            echo '</div>';
-                                                        } else {
-                                                            echo "Nenhum funcionário encontrado.";
-                                                        }
-                                                    } else {
-                                                        $query = "SELECT * FROM funcionario";
-                                                        $result = $conn->query($query);
-                                                        if ($result->num_rows > 0) {
-                                                            echo '<div class="preview-list">';
-                                                            while ($row = $result->fetch_assoc()) {
-                                                                $id = $row['id'];
-                                                                $username = $row['username'];
-                                                                $email = $row['email'];
-                                                                $telefone = $row['telefone'];
-                                                                $endereco = $row['endereco'];
-                                                                $setor = $row['setor'];
-                                                                $cargo = $row['cargo'];
-                                                                $carga_horaria = $row['carga_horaria'];
 
-                                                                echo '<div class="preview-item border-bottom" onclick="openModal(' . $id . ')">';
-                                                                echo '  <div class="preview-thumbnail">';
-                                                                echo '    <div class="preview-icon bg-primary align-left">';
-                                                                echo '      <i class="mdi mdi-account"></i>';
-                                                                echo '    </div>';
-                                                                echo '  </div>';
-                                                                echo '  <div class="preview-item-content d-sm-flex flex-grow">';
-                                                                echo '    <div class="flex-grow">';
-                                                                echo '      <h6 class="preview-subject">' . $username . '</h6>';
-                                                                echo '      <p class="text-muted mb-0">' . $email . '</p>';
-                                                                echo '    </div>';
-                                                                echo '    <div>';
-                                                                echo '      <p class="text-muted mb-0">' . $setor . '</p>';
-                                                                echo '      <p class="text-muted mb-0">' . $telefone . '</p>';
-                                                                echo '      <div id="myModal-' . $id . '" class="modal">';
-                                                                echo '        <div class="modal-content">';
-                                                                echo '          <span class="close" onclick="closeModal(' . $id . ')">&times;</span>';
-                                                                echo '          <h3>Dados do Projeto</h3>';
-                                                                echo '          <p class="modalText"><strong>Nome:</strong> ' . $username . '</p>';
-                                                                echo '          <p><strong>Email:</strong> ' . $email . '</p>';
-                                                                echo '          <p><strong>Telefone:</strong> ' . $telefone . '</p>';
-                                                                echo '          <p><strong>Endereço:</strong> ' . $endereco . '</p>';
-                                                                echo '          <p><strong>Setor:</strong> ' . $setor . '</p>';
-                                                                echo '          <p><strong>Cargo:</strong> ' . $cargo . '</p>';
-                                                                echo '          <p><strong>Carga horária:</strong> ' . $carga_horaria . '</p>';
-                                                                echo '        </div>';
-                                                                echo '      </div>';
-                                                                echo '      <script>';
-                                                                echo '        function openModal(id) {';
-                                                                echo '          document.getElementById("myModal-" + id).style.display = "block";';
-                                                                echo '        }';
-                                                                echo '        function closeModal(id) {';
-                                                                echo '          document.getElementById("myModal-" + id).style.display = "none";';
-                                                                echo '        }';
-                                                                echo '      </script>';
-                                                                echo '    </div>';
-                                                                echo '  </div>';
-                                                                echo '</div>';
-                                                            }
-                                                        }
-                                                    }
+                                                        $conn->close();
                                                     ?>
                                                  </div>
                                              </div>
