@@ -219,53 +219,222 @@
                 <div class="col-md-12 grid-margin stretch-card">
                   <div class="card">
                     <div class="card-body">
-                    <div id="monthDisplay"></div>
+                      <div id="monthDisplay"></div>
 
-                      <div>
-                        <button id="buttonBack">Voltar</button>
-                        <button id="buttonNext">Próximo</button>
+                        <div>
+                          <button id="buttonBack">Voltar</button>
+                          <button id="buttonNext">Próximo</button>
+                        </div>
+                          
+                        </div>
+
+                        <div id="weekdays">
+                        <div>Domingo</div>
+                        <div>Segunda-feira</div>
+                        <div>Terça-feira</div>
+                        <div>Quarta-feira</div>
+                        <div>Quinta-feira</div>
+                        <div>Sexta-feira</div>
+                        <div>Sábado</div>
+                        </div>
+
+
+                        <!-- div dinamic -->
+                        <div id="calendar" ></div>
+
+
+                        </div>
+
+                        <div id="newEventModal">
+                        <h2>Novo Evento</h2>
+
+                        <input id="eventTitleInput" placeholder="Evento"/>
+
+                        <button id="saveButton" href="agenda.php"> Salvar</button>
+                        <button id="cancelButton" href="agenda.php">Cancelar</button>
+                        </div>
+
+                        <div id="deleteEventModal">
+                        <h2>Evento</h2>
+
+                        <div id="eventText"></div><br>
+
+
+                        <button id="deleteButton" href="agenda.php">Deletar</button>
+                        <button id="closeButton" href="agenda.php">Fechar</button>
+                        </div>                          
+                        <style>
+                        body {
+  --body-color: rgb(7, 5, 5);
+  --header-color: #d36c6c;
+  --header-button: #92a1d1;
+  --color-weekdays: #247BA0;
+  --box-shadow: #CBD4C2;
+  --hover: #1a1f1a;
+  --current-day: #073a53;
+  --event-color: #58bae4;
+  --modal-event: #191c24;
+  --color-day: rgb(7, 5, 5);
+
+  display: flex;
+  margin-top: 50px;
+  justify-content: center;
+  background-color: var(--body-color);
+}
+
+#buttonBack,
+#buttonNext {
+  width: 75px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 5px;
+  border-radius: 15px;
+  color: rgb(7, 5, 5);
+}
+
+#header {
+  padding: 10px;
+  color: var(--header-color);
+  font-size: 26px;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+
+#header button {
+  background-color: var(--header-button);
+}
+
+#container {
+  width: 70px;
+}
+
+#weekdays {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-weekdays);
+}
+
+#weekdays div {
+  width: calc(100% / 7);
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#calendar {
+  width: 65%;
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.day {
+  width: calc((100% - 10px * 8) / 7); /* Calcula a largura com base no número de dias e espaçamento */
+  padding: 10px;
+  height: 100px;
+  cursor: pointer;
+  box-sizing: border-box;
+  background-color: var(--color-day);
+  margin-bottom: 5px; /* Adiciona um espaçamento entre as linhas */
+  box-shadow: 0px 0px 3px var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 15%;
+}
+
+.day:hover {
+  background-color: var(--hover);
+}
+
+.day+#currentDay {
+  background-color: var(--current-day);
+}
+
+.event {
+  font-size: 10px;
+  padding: 3px;
+  background-color: var(--event-color);
+  color: white;
+  border-radius: 5px;
+  max-height: 55px;
+  overflow: hidden;
+}
+
+.padding {
+  cursor: default !important;
+  background-color: var(--body-color) !important;
+  box-shadow: var(--box-shadow) !important;
+}
+
+#newEventModal,
+#deleteEventModal {
+  display: none;
+  z-index: 20;
+  padding: 25px;
+  background-color: var(--modal-event);
+  box-shadow: 0px 0px 3px black;
+  border-radius: 5px;
+  width: 350px;
+  top: 100px;
+  left: calc(50% - 175px);
+  position: absolute;
+}
+
+#eventTitleInput {
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 25px;
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  box-shadow: 0px 0px 3px gray;
+}
+
+#eventTitleInput.error {
+  border: 2px solid red;
+}
+
+#cancelButton,
+#deleteButton {
+  background-color: var(--header-color);
+}
+
+#saveButton,
+#closeButton {
+  background-color: var(--header-button);
+}
+
+#eventText {
+  font-size: 14px;
+}
+
+#modalBackDrop {
+  display: none;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#saveButton,
+#cancelButton,
+#deleteButton,
+#closeButton {
+  border-radius: 15px;
+  outline: none;
+  border: black;
+}
+
+                      </style>
                       </div>
-                        
-                      </div>
-
-                      <div id="weekdays">
-                      <div>Domingo</div>
-                      <div>Segunda-feira</div>
-                      <div>Terça-feira</div>
-                      <div>Quarta-feira</div>
-                      <div>Quinta-feira</div>
-                      <div>Sexta-feira</div>
-                      <div>Sábado</div>
-                      </div>
-
-
-                      <!-- div dinamic -->
-                      <div id="calendar" ></div>
-
-
-                      </div>
-
-                      <div id="newEventModal">
-                      <h2>Novo Evento</h2>
-
-                      <input id="eventTitleInput" placeholder="Evento"/>
-
-                      <button id="saveButton" href="agenda.php"> Salvar</button>
-                      <button id="cancelButton" href="agenda.php">Cancelar</button>
-                      </div>
-
-                      <div id="deleteEventModal">
-                      <h2>Evento</h2>
-
-                      <div id="eventText"></div><br>
-
-
-                      <button id="deleteButton" href="agenda.php">Deletar</button>
-                      <button id="closeButton" href="agenda.php">Fechar</button>
-                      </div>
-
-                        
-                    </div>
                   </div>
                 </div>
           </div>

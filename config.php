@@ -11,7 +11,8 @@
   $dataEntrega = date('d/m/Y');
   include 'PHP/fotoUpload.php';
   include 'PHP/setor.php';
-  include 'PHP/cargo.php'
+  include 'PHP/cargo.php';
+  include 'PHP/tipoProjeto.php';
 
 ?>
 
@@ -134,11 +135,12 @@
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="blank-page.html"> Pagina em branco </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-                <li class="nav-item"> <a class="nav-link" href="index.php"> login </a></li>
-                <li class="nav-item"> <a class="nav-link" href="register.php"> Registrar </a></li>
+                <li class="nav-item"> <a class="nav-link" href=""> Home </a></li>
+                <li class="nav-item"> <a class="nav-link" href=""> Perfil </a></li>
+                <li class="nav-item"> <a class="nav-link" href=""> login </a></li>
+                <li class="nav-item"> <a class="nav-link" href=""> Registro </a></li>
+                <li class="nav-item"> <a class="nav-link" href=""> Agenda </a></li>
+
               </ul>
             </div>
           </li>
@@ -209,19 +211,19 @@
                 <div class="col-md-12 grid-margin stretch-card">
                   <div class="card">
                     <div class="card-body">
-                    <div class="border-bottom">                   
-                      <h3 class="">Configurações</h3>
-                      
-                      <h5>Setores</h5>
-                      <select class="form-control col-2 mt-3 mb-3" id="select"></select>
-                      
-                      <h6>Adicionar Setor</h6>
-                      <input class="form-control col-2 mt-3" type="text" id="nova-opcao">
-                      <button class="btn btn-primary mt-3 mb-3" id="adicionar-opcao">Adicionar</button>
-                      
-                      <h6>Remover Setor</h6>
-                      <button class="btn btn-dark pr-3 mb-3" id="remover-opcao">Remover</button>
-                    </div>
+                      <div class="border-bottom">                   
+                        <h3 class="">Configurações</h3>
+                        
+                        <h5>Setores</h5>
+                        <select class="form-control col-2 mt-3 mb-3" id="select"></select>
+                        
+                        <h6>Adicionar Setor</h6>
+                        <input class="form-control col-2 mt-3" type="text" id="nova-opcao">
+                        <button class="btn btn-primary mt-3 mb-3" id="adicionar-opcao">Adicionar</button>
+                        
+                        <h6>Remover Setor</h6>
+                        <button class="btn btn-dark pr-3 mb-3" id="remover-opcao">Remover</button>
+                      </div>
 
                       <div class="border-bottom mt-3">                   
                         <h5>Cargos</h5>
@@ -233,6 +235,22 @@
                         
                         <h6>Remover Cargo</h6>
                         <button class="btn btn-dark pr-3 mb-3 " id="remover-opcao-cargo">Remover</button>
+                      </div>
+
+                      <div class="border-bottom mt-3">
+                        <h5>Tipo de Projeto</h5>
+                        <select class="form-control col-2 mt-3 mb-3" id="select-tipo-projeto">
+                          <?php foreach ($opcoesTipoProjeto as $opcao) : ?>
+                            <option value="<?php echo $opcao; ?>"><?php echo $opcao; ?></option>
+                          <?php endforeach; ?>
+                        </select>
+
+                        <h6>Adicionar Tipo de Projeto</h6>
+                        <input class="form-control col-2 mt-3" type="text" id="nova-opcao-tipo-projeto">
+                        <button class="btn btn-primary mt-3 mb-3" id="adicionar-opcao-tipo-projeto">Adicionar</button>
+
+                        <h6>Remover Tipo de Projeto</h6>
+                        <button class="btn btn-dark pr-3 mb-3" id="remover-opcao-tipo-projeto">Remover</button>
                       </div>
                     </div>
                   </div>
@@ -310,8 +328,7 @@
               xhttp.send(payload);
             });
           });
-        </script>
-        <script>
+
           document.addEventListener("DOMContentLoaded", function() {
             var selectElement = document.getElementById("select-cargo");
             var adicionarOpcaoButton = document.getElementById("adicionar-opcao-cargo");
@@ -376,6 +393,77 @@
 
               // Concatenando o payload codificado com as selecionadas
               payload += selecionadasEncoded;
+
+              xhttp.send(payload);
+            });
+          });
+          </script>
+
+          <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            var selectTipoProjeto = document.getElementById("select-tipo-projeto");
+            var adicionarOpcaoTipoProjetoButton = document.getElementById("adicionar-opcao-tipo-projeto");
+            var removerOpcaoTipoProjetoButton = document.getElementById("remover-opcao-tipo-projeto");
+
+            function atualizarSelectTipoProjeto() {
+              selectTipoProjeto.innerHTML = "";
+              <?php foreach ($opcoesTipoProjeto as $opcao) : ?>
+                var option = document.createElement("option");
+                option.value = "<?php echo $opcao; ?>";
+                option.text = "<?php echo $opcao; ?>";
+                selectTipoProjeto.appendChild(option);
+              <?php endforeach; ?>
+            }
+
+            atualizarSelectTipoProjeto();
+
+            adicionarOpcaoTipoProjetoButton.addEventListener("click", function() {
+              var novaOpcaoTipoProjeto = document.getElementById("nova-opcao-tipo-projeto").value;
+
+              if (novaOpcaoTipoProjeto === "") {
+                alert("Campo inválido");
+                return;
+              }
+
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                  opcoesTipoProjeto = JSON.parse(this.responseText);
+                  atualizarSelectTipoProjeto();
+                  document.getElementById("nova-opcao-tipo-projeto").value = "";
+                }
+              };
+              xhttp.open("POST", "<?php echo $_SERVER["PHP_SELF"]; ?>", true);
+              xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+              xhttp.send("nova_opcao_tipo_projeto=" + novaOpcaoTipoProjeto);
+            });
+
+            removerOpcaoTipoProjetoButton.addEventListener("click", function() {
+              var selecionadasTipoProjeto = Array.from(selectTipoProjeto.selectedOptions).map(function(option) {
+                return option.value;
+              });
+
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                  opcoesTipoProjeto = JSON.parse(this.responseText);
+                  atualizarSelectTipoProjeto();
+                }
+              };
+              xhttp.open("POST", "<?php echo $_SERVER["PHP_SELF"]; ?>", true);
+              xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+              // Construindo o payload para envio
+              var payload = "remover_opcao_tipo_projeto=true&select_tipo_projeto=";
+
+              // Codificando o array de selecionadas como JSON
+              var selecionadasTipoProjetoJSON = JSON.stringify(selecionadasTipoProjeto);
+
+              // Codificando o JSON para que seja seguro como parâmetro da URL
+              var selecionadasTipoProjetoEncoded = encodeURIComponent(selecionadasTipoProjetoJSON);
+
+              // Concatenando o payload codificado com as selecionadas
+              payload += selecionadasTipoProjetoEncoded;
 
               xhttp.send(payload);
             });

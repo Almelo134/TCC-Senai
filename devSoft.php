@@ -8,6 +8,8 @@
 }
   $id_usuario = $_SESSION['id_usuario'];  
   include 'PHP/fotoUpload.php';
+  include 'PHP/setor.php';
+  include 'PHP/tipoProjeto.php';
   require 'PHP/conexao/banco.php';
   $dataHoje = date('Y-m-d');
   $datamin = date('Y-m-d', strtotime('-1 day'));
@@ -232,25 +234,23 @@
                             <label for="Password">Tipo de Projeto</label>
                             <select class="form-control" id="Password" name = "categoria">
                                 <option>Selecione o tipo de projeto</option>
-                                <option value= "Software">Software</option>
-                                <option value= "UI">Ui</option>
-                                <option value= "UX">Ux</option>
-                                <option value= "Hardware">Hardware</option>
+                                <?php foreach ($opcoesTipoProjeto as $opcao) : ?>
+                                  <option value="<?php echo $opcao; ?>"><?php echo $opcao; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="Password">Participantes</label>
+                            <label for="Password">Setor responsavel</label>
                             <select class="form-control" id="Password" name = "participantes">
-                                <option>Selecione os participantes</option>
-                                <option value = "Mario" >mario</option>
-                                <option value = "Joao" >joao </option>
-                                <option value = "Lucas" >lucas</option>
-                                <option value = "Pedro" >pedro</option>
+                                <option>Selecione o setor</option>
+                                <?php foreach ($opcoes as $opcao): ?>
+                                  <option value="<?php echo $opcao; ?>"><?php echo $opcao; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="form-group">
-                          <label for="Password">Data</label>
-                          <input class="form-control" type="date" id="Password" name="calendario" min="<?php echo $datamin?>" max="<?php echo $datamax ?>" required>
+                          <label for="Dataentrega">Data de entrega</label>
+                          <input class="form-control" type="date" id="Dataentrega" name="calendario" min="<?php echo $datamin?>" max="<?php echo $datamax ?>" required>
                         </div>
                         <button type="submit" class="btn btn-primary mr-2" name = "Enviar">Enviar</button>
                         <button class="btn btn-dark">Cancelar</button>

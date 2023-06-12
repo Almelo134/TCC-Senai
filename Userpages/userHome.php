@@ -1,13 +1,13 @@
 <?php
+  require 'phpUser/bancoUser.php';
   session_start();
   if (!isset($_SESSION['id_usuario'])) {
     header("Location: index.php");
     exit();
 }
 $id_usuario = $_SESSION['id_usuario'];
-include 'PHP/projectInfo.php';
-include 'PHP/fotoUpload.php';
-  
+include 'phpUser/projectInfoUser.php';
+// include 'phpUser/fotoUpload.php';    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,15 +16,15 @@ include 'PHP/fotoUpload.php';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Admin</title>
-    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
 
 
     <!-- <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css"> -->
     <!-- <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css"> -->
 
-    <link rel="stylesheet" href="assets/css/modal.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <link rel="stylesheet" href="../assets/css/modal.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="shortcut icon" href="../assets/images/favicon.png" />
 </head>
 
 <body class="sidebar-icon-only">
@@ -34,8 +34,8 @@ include 'PHP/fotoUpload.php';
 
             <!-- Adicionar Logo -->
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="home.php"><img src="assets/images/logo.svg" alt="logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="home.php"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+                <a class="sidebar-brand brand-logo" href="userHome.php"><img src="../assets/images/logo.svg" alt="logo" /></a>
+                <a class="sidebar-brand brand-logo-mini" href="userHome.php"><img src="../assets/images/logo-mini.svg" alt="logo" /></a>
             </div>
 
             <ul class="nav">
@@ -44,11 +44,11 @@ include 'PHP/fotoUpload.php';
                         <div class="profile-pic">
                             <div class="count-indicator">
                                 <img class="img-xs rounded-circle "
-                                    src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?>>
+                                    src=<?php echo '../assets/images/faces/'.$perfilLogado.'.jpg'?>>
                                 <span class="count bg-success"></span>
                             </div>
                             <div class="profile-name">
-                                <h5 class="mb-0 font-weight-normal"><?php include 'PHP/addInfo.php'; echo $nome;?></h5>
+                                <h5 class="mb-0 font-weight-normal"><?php include '../PHP/addInfo.php'; echo $nome;?></h5>
                             </div>
                         </div>
                         <a href="#" id="profile-dropdown" data-toggle="dropdown"><i
@@ -103,7 +103,7 @@ include 'PHP/fotoUpload.php';
                 </li>
 
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="profile.php">
+                    <a class="nav-link" href="userProfile.php">
                         <span class="menu-icon">
                             <i class="mdi mdi-account-outline"></i>
                         </span>
@@ -112,53 +112,12 @@ include 'PHP/fotoUpload.php';
                 </li>
 
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="funcionario.php">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-account-outline"></i>
-                        </span>
-                        <span class="menu-title">Funcionários</span>
-                    </a>
-                </li>
-
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="addFuncionario.php">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-account-outline"></i>
-                        </span>
-                        <span class="menu-title">Adicionar Funcionários</span>
-                    </a>
-                </li>
-
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="agenda.php">
+                    <a class="nav-link" href="userAgenda.php">
                         <span class="menu-icon">
                             <i class="mdi mdi-account-outline"></i>
                         </span>
                         <span class="menu-title">Agenda</span>
                     </a>
-                </li>
-
-
-                <!-- apagar -->
-                <li class="nav-item menu-items">
-                    <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-security"></i>
-                        </span>
-                        <span class="menu-title">User Pages</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse" id="auth">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Pagina em
-                                    branco </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> login </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Registrar </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
             </ul>
         </nav>
@@ -167,7 +126,7 @@ include 'PHP/fotoUpload.php';
 
             <nav class="navbar p-0 fixed-top d-flex flex-row">
                 <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                    <a class="navbar-brand brand-logo-mini" href="home.php"><img src="assets/images/logo-mini.svg"
+                    <a class="navbar-brand brand-logo-mini" href="home.php"><img src="../assets/images/logo-mini.svg"
                             alt="logo" /></a>
                 </div>
                 <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
@@ -188,7 +147,7 @@ include 'PHP/fotoUpload.php';
                             <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                 <div class="navbar-profile">
                                     <img class="img-xs rounded-circle "
-                                        src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?>>
+                                        src=<?php echo '../assets/images/faces/'.$perfilLogado.'.jpg'?>>
                                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php print $nome; ?></p>
                                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                 </div>
@@ -352,14 +311,14 @@ include 'PHP/fotoUpload.php';
     </div>
 
     <!-- plugins:js -->
-    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="assets/vendors/progressbar.js/progressbar.min.js"></script>
-    <script src="assets/js/off-canvas.js"></script>
-    <script src="assets/js/hoverable-collapse.js"></script>
-    <script src="assets/js/misc.js"></script>
-    <script src="assets/js/settings.js"></script>
-    <script src="assets/js/todolist.js"></script>
-    <script src="assets/js/dashboard.js"></script>
+    <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="../assets/vendors/progressbar.js/progressbar.min.js"></script>
+    <script src="../assets/js/off-canvas.js"></script>
+    <script src="../assets/js/hoverable-collapse.js"></script>
+    <script src="../assets/js/misc.js"></script>
+    <script src="../assets/js/settings.js"></script>
+    <script src="../assets/js/todolist.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
 
 </body>
 

@@ -1,14 +1,16 @@
 /* Estilos para a Modal Box */
 .modal {
     display: none;
-    position: fixed;
+    /* position: fixed; */
     z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
+  
 }
+
 
 .modal-content {
     background-color: #191c24 !important;
@@ -17,13 +19,20 @@
     border: 1px solid #00000057 !important;
     width: 80% !important;
     overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    border-radius: 15px;
 }
 
 .close {
     color: #aaa !important;
     float: right !important;
-    font-size: 28px !important;
+    font-size: 50px !important;
     font-weight: bold !important;
+    text-align: left;
 }
 
 .close:hover,
@@ -52,5 +61,18 @@
     height: 16em;
     flex: 0 0 20px; /* Define a largura desejada para a imagem */
     margin-right: 20px; /* Adapte a margem conforme necessário */
+  }
+  
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin-top: auto;
+  }
+  
+  .btn-concluir-projeto,
+  .btn-etapas-projeto {
+    margin-right: 10px;
   }
   

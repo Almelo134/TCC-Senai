@@ -244,52 +244,37 @@ include 'PHP/updateProfile.php';
                   }
               </style>
               <form action="" method="POST" enctype="multipart/form-data">
-                  <div class="card col-sm-12 grid-margin pt-4">
-                      <div class="image-wrapper">
-                          <?php
-                          $imagemPerfil = 'assets/images/faces/' . $perfilLogado . '.' . $extensaoPadrao;
+                <div class="card col-sm-12 grid-margin pt-4">
+                  <div class="image-wrapper">
+                    <?php
+                    $imagemPerfil = 'assets/images/faces/' . $perfilLogado . '.' . $extensaoPadrao;
 
-                          if (isset($_POST['enviar']) && isset($_FILES['file'])) {
-                              $arquivo = $_FILES['file'];
-                              $extensao = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
-
-                              if (in_array(strtolower($extensao), $ex_permitidos)) {
-                                  $destino = 'assets/images/faces/' . $perfilLogado . '.jpg';
-
-                                  if (move_uploaded_file($arquivo['tmp_name'], $destino)) {
-                                      // Upload do arquivo bem-sucedido
-                                      echo '<script>alert("Upload efetuado com sucesso!!!")</script>';
-                                      $imagemPerfil = $destino; // Atualiza o caminho da imagem exibida
-                                  }
-                              }
-                          }
-
-                          if (file_exists($imagemPerfil)) {
-                              echo '<img class="img-xs-12" id="perfil-img" src="' . $imagemPerfil . '">';
-                          } else {
-                              echo '<img class="img-xs-12" id="perfil-img" src="' . $imagemPadrao . '">';
-                          }
-                          ?>
-                          <label for="file" class="overlay">Trocar foto de perfil</label>
-                          <input type="file" id="file" name="file" style="display: none;" onchange="trocarImagem(event)">
-                      </div>
-                      <input type="submit" name="enviar" value="Enviar" id="enviar-btn" style="display: none;" class="btn btn-primary">
+                    if (file_exists($imagemPerfil)) {
+                      echo '<img class="img-xs-12" id="perfil-img" src="' . $imagemPerfil . '">';
+                    } else {
+                      echo '<img class="img-xs-12" id="perfil-img" src="' . $imagemPadrao . '">';
+                    }
+                    ?>
+                    <label for="file" class="overlay">Trocar foto de perfil</label>
+                    <input type="file" id="file" name="file" style="display: none;" onchange="trocarImagem(event)">
                   </div>
+                  <input type="submit" name="enviar" value="Enviar" id="enviar-btn" style="display: none;" class="btn btn-primary">
+                </div>
               </form>
 
-            <script>
-              function trocarImagem(event) {        
-                const input = event.target;
+              <script>
+                function trocarImagem(event) {
+                  const input = event.target;
                   if (input.files && input.files[0]) {
                     const reader = new FileReader();
-                    reader.onload = function (e) {
+                    reader.onload = function(e) {
                       document.getElementById('perfil-img').setAttribute('src', e.target.result);
                       document.getElementById('enviar-btn').style.display = 'inline-block';
-                      }
-                      reader.readAsDataURL(input.files[0]);
+                    }
+                    reader.readAsDataURL(input.files[0]);
                   }
                 }
-            </script>
+              </script>
 
               <div class="card align-items-buttom pr-5 ">
                 <div class="card-body mb-6 ">
