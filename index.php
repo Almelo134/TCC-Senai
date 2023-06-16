@@ -1,46 +1,54 @@
 <?php
 
-require 'PHP/conexao/banco.php';
-require 'PHP/registro.php';
+class Login {
+    private $conn;
+
+    public function __construct($conn) {
+        $this->conn = $conn;
+    }
+
+    public function autenticarUsuario($email, $senha) {
+        $email = $this->conn->real_escape_string($email);
+        $query = "SELECT * FROM usuario WHERE email = '$email'";
+        $result = $this->conn->query($query);
+
+        if ($result->num_rows == 1) {
+            $usuario = $result->fetch_assoc();
+            if (password_verify($senha, $usuario['senha'])) {
+                session_start();
+                $_SESSION['id_usuario'] = $usuario['id'];
+                header("Location: home.php");
+                exit();
+            } elseif (empty($email) || empty($senha)) {
+                echo "<script>alert('Certifique-se de que todas as informações foram inseridas corretamente')</script>";
+                echo "<script>location.href='index.php';</script>";
+            } else {
+                $mensagem_erro = "Email ou senha incorretos.";
+            }
+        } else {
+            $mensagem_erro = "Email ou senha incorretos.";
+        }
+
+        $this->conn->close();
+    }
+}
 
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
-    // Escapa caracteres especiais para evitar injeção de SQL
-    $email = $conn->real_escape_string($email);
+    $conn = new mysqli("localhost", "root", "", "gestaoativ");
 
-    // Busca no banco de dados pelo email informado
-    $query = "SELECT * FROM usuario WHERE email = '$email'";
-    $result = $conn->query($query);
-
-    if ($result->num_rows == 1) {
-        $usuario = $result->fetch_assoc();
-        // Verifica se a senha corresponde
-        if (password_verify($senha, $usuario['senha'])) {
-            // Login bem sucedido - redireciona para a página de perfil do usuário
-            session_start();
-            $_SESSION['id_usuario'] = $usuario['id'];
-            header("Location: home.php");
-            exit();
-        } else if(empty($email) or empty($senha))
-        {
-            print "<script>alert('certifique-se que todas as informacoes foram inseridas corretamente')</script>";
-            print "<script>location.href='index.php';</script>";
-        } else {
-            // Login falhou - exibe uma mensagem de erro
-            $mensagem_erro = "Email ou senha incorretos.";
-        }
-    } else {
-        // Login falhou - exibe uma mensagem de erro
-        $mensagem_erro = "Email ou senha incorretos.";
+    if ($conn->connect_error) {
+        die("Erro na conexão com o banco de dados: " . $conn->connect_error);
     }
 
-    // Fecha a conexão mysqli
-    $conn->close();
+    $login = new Login($conn);
+    $login->autenticarUsuario($email, $senha);
 }
 
 ?>
+
 
 
 <!DOCTYPE html>

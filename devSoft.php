@@ -47,7 +47,7 @@
                   <h5 class="mb-0 font-weight-normal"><?php include 'PHP/addInfo.php'; echo $nome;?></h5>
                 </div>
               </div>
-              <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+              <a href="config.php" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
               <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
                 <a href="config.php" class="dropdown-item preview-item">
                   <div class="preview-thumbnail">
@@ -60,7 +60,7 @@
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item preview-item">
+                <a href="profile.php" class="dropdown-item preview-item">
                   <div class="preview-thumbnail">
                     <div class="preview-icon bg-dark rounded-circle">
                       <i class="mdi mdi-onepassword  text-info"></i>
@@ -68,17 +68,6 @@
                   </div>
                   <div class="preview-item-content">
                     <p class="preview-subject ellipsis mb-1 text-small">Mudar senha</p>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-dark rounded-circle">
-                      <i class="mdi mdi-calendar-today text-success"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Lista de afazeres</p>
                   </div>
                 </a>
               </div>
@@ -96,21 +85,10 @@
             </a>
           </li>
 
-
-          <li class="nav-item menu-items">
-            <a class="nav-link" href="blank-page.html">
-              <span class="menu-icon">
-                <i class="mdi mdi-contacts"></i>
-              </span>
-              <span class="menu-title">Pagina em branco</span>
-            </a>
-          </li>
-
-
           <li class="nav-item menu-items">
             <a class="nav-link" href="profile.php">
               <span class="menu-icon">
-                <i class="mdi mdi-account-outline"></i>
+                <i class="mdi mdi-account-circle"></i>
               </span>
               <span class="menu-title">Perfil</span>
             </a>
@@ -119,16 +97,25 @@
           <li class="nav-item menu-items">
             <a class="nav-link" href="funcionario.php">
               <span class="menu-icon">
-                <i class="mdi mdi-account-outline"></i>
+                <i class="mdi mdi-account-group"></i>
               </span>
               <span class="menu-title">Funcionários</span>
             </a>
           </li>
 
           <li class="nav-item menu-items">
+                    <a class="nav-link" href="addFuncionario.php">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-account-multiple-plus"></i>
+                        </span>
+                        <span class="menu-title">Adicionar Funcionários</span>
+                    </a>
+                </li>
+
+          <li class="nav-item menu-items">
                     <a class="nav-link" href="agenda.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-account-outline"></i>
+                            <i class="mdi mdi-calendar-month"></i>
                         </span>
                         <span class="menu-title">Agenda</span>
                     </a>
@@ -137,24 +124,7 @@
 
 
 
-          <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-              <span class="menu-icon">
-                <i class="mdi mdi-security"></i>
-              </span>
-              <span class="menu-title">User Pages</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="auth">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="blank-page.html"> Pagina em branco </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-                <li class="nav-item"> <a class="nav-link" href="index.php"> login </a></li>
-                <li class="nav-item"> <a class="nav-link" href="register.php"> Registrar </a></li>
-              </ul>
-            </div>
-          </li>
+          
         </ul>
       </nav>
 

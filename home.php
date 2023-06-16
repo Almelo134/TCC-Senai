@@ -34,7 +34,7 @@ include 'PHP/fotoUpload.php';
 
             <!-- Adicionar Logo -->
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="home.php"><img src="assets/images/logo.svg" alt="logo" /></a>
+                <a class="sidebar-brand brand-logo" href="home.php"><img src="assets/images/logo.png" alt="logo" /></a>
                 <a class="sidebar-brand brand-logo-mini" href="home.php"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
             </div>
 
@@ -76,17 +76,6 @@ include 'PHP/fotoUpload.php';
                                     <p class="preview-subject ellipsis mb-1 text-small">Mudar senha</p>
                                 </div>
                             </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-dark rounded-circle">
-                                        <i class="mdi mdi-calendar-today text-success"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <p class="preview-subject ellipsis mb-1 text-small">Lista de afazeres</p>
-                                </div>
-                            </a>
                         </div>
                     </div>
                 </li>
@@ -105,7 +94,7 @@ include 'PHP/fotoUpload.php';
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="profile.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-account-outline"></i>
+                            <i class="mdi mdi-account-circle"></i>
                         </span>
                         <span class="menu-title">Perfil</span>
                     </a>
@@ -114,7 +103,7 @@ include 'PHP/fotoUpload.php';
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="funcionario.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-account-outline"></i>
+                            <i class="mdi mdi-account-group"></i>
                         </span>
                         <span class="menu-title">Funcionários</span>
                     </a>
@@ -123,7 +112,7 @@ include 'PHP/fotoUpload.php';
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="addFuncionario.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-account-outline"></i>
+                            <i class="mdi mdi-account-multiple-plus"></i>
                         </span>
                         <span class="menu-title">Adicionar Funcionários</span>
                     </a>
@@ -132,34 +121,12 @@ include 'PHP/fotoUpload.php';
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="agenda.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-account-outline"></i>
+                            <i class="mdi mdi-calendar-month"></i>
                         </span>
                         <span class="menu-title">Agenda</span>
                     </a>
                 </li>
 
-
-                <!-- apagar -->
-                <li class="nav-item menu-items">
-                    <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-security"></i>
-                        </span>
-                        <span class="menu-title">User Pages</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse" id="auth">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Pagina em
-                                    branco </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> login </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Registrar </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
             </ul>
         </nav>
 

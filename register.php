@@ -1,3 +1,36 @@
+<?php
+require_once "PHP/conexao/banco.php";
+require_once "PHP/POO/registro.php";
+require_once "PHP/POO/registro.php";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $username = $_POST['username'];
+  $email = $_POST['email'];
+  $senha = $_POST['senha'];
+  $confirSenha = $_POST['confirSenha'];
+
+  $conn = new mysqli("localhost", "root", "", "gestaoativ");
+  if ($conn->connect_error) {
+      die("Falha na conexão com o banco de dados: " . $conn->connect_error);
+  }
+
+  $usuario = new Usuario($conn);
+  $usuario->setDados($username, $email, $senha, $confirSenha);
+  $resultado = $usuario->registrar();
+
+  if ($resultado === true) {
+      $conn->close();
+      header("Location: index.php");
+      exit();
+  } else {
+      $conn->close();
+      $erro = $resultado;
+  }
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,7 +52,7 @@
               <div class="card-body px-5 py-5">
                 <h3 class="card-title text-left mb-3">Registre-se</h3>
 
-                <form action = "PHP/registro.php" method = "POST">
+                <form action = "register.php" method = "POST">
                   <div class="form-group">
                     <label>Username</label>
                     <input type="text" name = "username" class="form-control p_input">
