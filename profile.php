@@ -5,9 +5,10 @@
     exit();
 }
 $id_usuario = $_SESSION['id_usuario'];
-include 'PHP/fotoUpload.php';
+include 'PHP/POO/fotoUpload.php';
 require 'PHP/conexao/banco.php';
 include 'PHP/updateProfile.php';
+include 'PHP/POO/addinfo.php';
 ?>
 
 
@@ -39,11 +40,11 @@ include 'PHP/updateProfile.php';
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
+                  <img class="img-xs rounded-circle " src=<?php echo $perfilUsuario->getImagemPerfil(); ?>>
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
-                  <h5 class="mb-0 font-weight-normal"><?php include 'PHP/addInfo.php'; echo $nome;?></h5>
+                  <h5 class="mb-0 font-weight-normal"><?php echo $nome;?></h5>
                 </div>
               </div>
               <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -142,7 +143,7 @@ include 'PHP/updateProfile.php';
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
+                    <img class="img-xs rounded-circle "  src=<?php echo $perfilUsuario->getImagemPerfil(); ?>>
                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php echo $nome;?></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
@@ -160,7 +161,7 @@ include 'PHP/updateProfile.php';
                       <p class="preview-subject mb-1">Configurações</p>
                     </div>
                   </a>
-                    <div class = "logout" onclick="location.href='PHP/logout.php'"> 
+                    <div class="logout" onclick="location.href='PHP/POO/logout.php'"> 
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item preview-item">
                         <div class="preview-thumbnail">
@@ -226,13 +227,13 @@ include 'PHP/updateProfile.php';
                 <div class="card col-sm-12 grid-margin pt-4">
                   <div class="image-wrapper">
                     <?php
-                    $imagemPerfil = 'assets/images/faces/' . $perfilLogado . '.' . $extensaoPadrao;
+                      $imagemPerfil = $perfilUsuario->getImagemPerfil();
 
-                    if (file_exists($imagemPerfil)) {
-                      echo '<img class="img-xs-12" id="perfil-img" src="' . $imagemPerfil . '">';
-                    } else {
-                      echo '<img class="img-xs-12" id="perfil-img" src="' . $imagemPadrao . '">';
-                    }
+                      if (file_exists($imagemPerfil)) {
+                        echo '<img class="img-xs-12" id="perfil-img" src="' . $imagemPerfil . '">';
+                      } else {
+                        echo '<img class="img-xs-12" id="perfil-img" src="' . $imagemPadrao . '">';
+                      }
                     ?>
                     <label for="file" class="overlay">Trocar foto de perfil</label>
                     <input type="file" id="file" name="file" style="display: none;" onchange="trocarImagem(event)">
@@ -295,14 +296,6 @@ include 'PHP/updateProfile.php';
                 </div>
               </div>
             </div>
-
-
-          <!-- <footer class="footer">
-            <div class="d-sm-flex justify-content-center justify-content-sm-between">
-              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright <?php print $nome; ?></span>
-              </div>
-          </footer> -->
-
        </div>
      </div>
    </div>

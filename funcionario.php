@@ -7,8 +7,9 @@ if (!isset($_SESSION['id_usuario'])) {
   exit();
 }
 $id_usuario = $_SESSION['id_usuario'];
-include 'PHP/fotoUpload.php';
+include 'PHP/POO/fotoUpload.php';
 require 'PHP/conexao/banco.php';
+include 'PHP/POO/addinfo.php';
 $dataEntrega = date('d/m/Y');
 
 // Configurações do banco de dados
@@ -64,11 +65,11 @@ if ($result->num_rows > 0) {
                         <div class="profile-pic">
                             <div class="count-indicator">
                                 <img class="img-xs rounded-circle "
-                                    src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?>>
+                                    src=<?php echo $perfilUsuario->getImagemPerfil(); ?>>
                                 <span class="count bg-success"></span>
                             </div>
                             <div class="profile-name">
-                                <h5 class="mb-0 font-weight-normal"><?php include 'PHP/addInfo.php'; echo $nome;?></h5>
+                                <h5 class="mb-0 font-weight-normal"><?php echo $nome;?></h5>
                             </div>
                         </div>
                         <a href="#" id="profile-dropdown" data-toggle="dropdown"><i
@@ -172,7 +173,7 @@ if ($result->num_rows > 0) {
                             <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                 <div class="navbar-profile">
                                     <img class="img-xs rounded-circle "
-                                        src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?>>
+                                        src=<?php echo $perfilUsuario->getImagemPerfil(); ?>>
                                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php print $nome; ?></p>
                                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                 </div>
@@ -191,7 +192,7 @@ if ($result->num_rows > 0) {
                                         <p class="preview-subject mb-1">Configurações</p>
                                     </div>
                                 </a>
-                                <div class="logout" onclick="location.href='PHP/logout.php'">
+                                <div class="logout" onclick="location.href='PHP/POO/logout.php'">
                                     <a class="dropdown-item preview-item">
                                         <div class="preview-thumbnail">
                                             <div class="preview-icon bg-dark rounded-circle">
@@ -316,6 +317,10 @@ if ($result->num_rows > 0) {
                                                                 echo '              <p><strong>Setor:</strong> ' . $setor . '</p>';
                                                                 echo '              <p><strong>Cargo:</strong> ' . $cargo . '</p>';
                                                                 echo '              <p><strong>Carga horária:</strong> ' . $carga_horaria . '</p>';
+                                                                echo '              <div class="modal-buttons">';
+                                                                echo '               <button class="btn btn-primary btn-concluir-projeto" onclick="projetoConcluido(' . $id . ')">Editar</button>';
+                                                                echo '               <button class="btn btn-secondary btn-etapas-projeto" onclick="etapasProjeto(' . $id . ')">Excluir</button>';
+                                                                echo '              </div>';
                                                                 echo '            </div>';
                                                                 echo '          </div>';
                                                                 echo '        </div>';
@@ -367,9 +372,6 @@ if ($result->num_rows > 0) {
     <script src="assets/js/misc.js"></script>
     <script src="assets/js/settings.js"></script>
     <script src="assets/js/dashboard.js"></script>
-    
-    <!-- apagar -->
-        <script src="assets/js/calendar.js"></script>
 </body>
 
 </html>

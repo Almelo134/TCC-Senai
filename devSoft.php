@@ -7,10 +7,10 @@
     exit();
 }
   $id_usuario = $_SESSION['id_usuario'];  
-  include 'PHP/fotoUpload.php';
-  include 'PHP/setor.php';
-  include 'PHP/tipoProjeto.php';
+  include 'PHP/POO/fotoUpload.php';
+  include 'PHP/configurations.php';
   require 'PHP/conexao/banco.php';
+  include 'PHP/POO/addinfo.php';
   $dataHoje = date('Y-m-d');
   $datamin = date('Y-m-d', strtotime('-1 day'));
   $datamax = date('Y-m-d', strtotime('+100 year'));
@@ -40,11 +40,11 @@
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg';?>>
+                  <img class="img-xs rounded-circle " src=<?php echo $perfilUsuario->getImagemPerfil(); ?>>
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
-                  <h5 class="mb-0 font-weight-normal"><?php include 'PHP/addInfo.php'; echo $nome;?></h5>
+                  <h5 class="mb-0 font-weight-normal"><?php echo $nome;?></h5>
                 </div>
               </div>
               <a href="config.php" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -119,12 +119,7 @@
                         </span>
                         <span class="menu-title">Agenda</span>
                     </a>
-                </li>
-
-
-
-
-          
+                </li>  
         </ul>
       </nav>
 
@@ -146,7 +141,7 @@
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
+                    <img class="img-xs rounded-circle " src=<?php echo $perfilUsuario->getImagemPerfil(); ?> >
                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php print $nome; ?></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
@@ -164,7 +159,7 @@
                       <p class="preview-subject mb-1">Configurações</p>
                     </div>
                   </a>
-                  <div class = "logout" onclick="location.href='PHP/logout.php'"> 
+                  <div class="logout" onclick="location.href='PHP/POO/logout.php'"> 
                     <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
                         <div class="preview-icon bg-dark rounded-circle">
@@ -191,7 +186,7 @@
                   <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Criar Projeto</h4>
-                        <form action="PHP/projeto.php" method="POST" class="forms-sample">
+                        <form action="PHP/POO/projeto.php" method="POST" class="forms-sample">
                         <div class="form-group">
                             <label for="Username"> Nome do Projeto </label>
                             <input type="text" class="form-control" id="Username" name = "nomeProj" placeholder="Projeto">

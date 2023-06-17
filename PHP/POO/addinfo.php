@@ -1,7 +1,6 @@
 <?php
 
-require '../conexao/banco.php';
-
+// require_once '../PHP/conexao/banco.php';
 class Usuario {
     private $id;
     private $nome;
@@ -32,8 +31,6 @@ class Usuario {
     }
 }
 
-// Uso:
-session_start();
 
 // Verificar se o usuário está autenticado
 if (!isset($_SESSION['id_usuario'])) {

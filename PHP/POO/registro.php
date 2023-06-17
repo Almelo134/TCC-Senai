@@ -19,26 +19,32 @@ class Usuario {
 
     public function registrar() {
         // Verificar se todos os campos estão preenchidos
-        if (empty($this->username) || empty($this->email) || empty($this->senha) || empty($this->confirSenha)) {
-            return "Preencha todos os campos.";
+        if (empty($this->username)  || empty($this->email) || empty($this->senha) || empty($this->confirSenha)) {
+            echo "<script>alert('Preencha todos os campos.')</script>";
         } else {
             // Verificar se as senhas são iguais
             if ($this->senha != $this->confirSenha) {
-                return "Certifique-se de que as senhas são iguais.";
+                echo "<script>alert('Certifique-se de que as senhas são iguais.')</script>";
             } else {
-                $criptSenha = password_hash($this->senha, PASSWORD_DEFAULT);
-
-                $sql = "INSERT INTO usuario (username, email, senha) VALUES (?, ?, ?)";
-                $stmt = $this->conn->prepare($sql);
-                $stmt->bind_param("sss", $this->username, $this->email, $criptSenha);
-                $result = $stmt->execute();
-
-                if ($result) {
-                    return true;
+                // Verificar tamanho mínimo da senha
+                if (strlen($this->senha) < 6) {
+                    echo "<script>alert('A senha deve ter no mínimo 6 caracteres.')</script>";
                 } else {
-                    return "Erro ao registrar o usuário.";
+                    $criptSenha = password_hash($this->senha, PASSWORD_DEFAULT);
+
+                    $sql = "INSERT INTO usuario (username, email, senha) VALUES (?, ?, ?)";
+                    $stmt = $this->conn->prepare($sql);
+                    $stmt->bind_param("sss", $this->username, $this->email, $criptSenha);
+                    $result = $stmt->execute();
+
+                    if ($result) {
+                        return true;
+                    } else {
+                        echo "<script>alert('Erro ao registrar o usuário.')</script>";
+                    }
                 }
             }
         }
     }
 }
+?>

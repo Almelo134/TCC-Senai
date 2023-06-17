@@ -7,8 +7,8 @@
     exit();
   }
   $id_usuario = $_SESSION['id_usuario'];
-  include 'PHP/fotoUpload.php';
-  require 'PHP/conexao/banco.php';
+  include 'PHP/POO/fotoUpload.php';
+
   $dataEntrega = date('d/m/Y');
 
 // Configurações do banco de dados
@@ -76,11 +76,11 @@ if ($resultCargo->num_rows > 0) {
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
+                  <img class="img-xs rounded-circle " src=<?php echo $perfilUsuario->getImagemPerfil(); ?> >
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
-                  <h5 class="mb-0 font-weight-normal"><?php include 'PHP/addInfo.php'; echo $nome;?></h5>
+                  <h5 class="mb-0 font-weight-normal"><?php include 'PHP/POO/addinfo.php'; echo $nome;?></h5>
                 </div>
               </div>
               <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -179,7 +179,7 @@ if ($resultCargo->num_rows > 0) {
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
+                    <img class="img-xs rounded-circle " src=<?php echo $perfilUsuario->getImagemPerfil(); ?> >
                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php print $nome; ?></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
@@ -197,7 +197,7 @@ if ($resultCargo->num_rows > 0) {
                       <p class="preview-subject mb-1">Configurações</p>
                     </div>
                   </a>
-                  <div class = "logout" onclick="location.href='PHP/logout.php'"> 
+                  <div class="logout" onclick="location.href='PHP/POO/logout.php'"> 
                     <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
                         <div class="preview-icon bg-dark rounded-circle">
@@ -235,7 +235,7 @@ if ($resultCargo->num_rows > 0) {
                                       </div>
                                       <div class="form-group">
                                           <label for="telefone">Telefone</label>
-                                          <input type="text" class="form-control" name="telefone" id="telefone" placeholder="telefone">
+                                          <input type="tel" class="form-control" name="telefone" id="telefone" placeholder="telefone" maxlength="15" onkeyup="handlePhone(event)"> 
                                       </div>
                                       <div class="form-group">
                                           <label for="endereco">Endereço</label>
@@ -297,8 +297,20 @@ if ($resultCargo->num_rows > 0) {
               </div>
           </div>
 
-              
-    <!-- plugins:js -->
+    <script>
+      const handlePhone = (event) => {
+        let input = event.target
+        input.value = phoneMask(input.value)
+      }
+
+      const phoneMask = (value) => {
+        if (!value) return ""
+        value = value.replace(/\D/g,'')
+        value = value.replace(/(\d{2})(\d)/,"($1) $2")
+        value = value.replace(/(\d)(\d{4})$/,"$1-$2")
+        return value
+      }
+    </script>
 
     <script src="assets/js/calendar.js"></script>
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>

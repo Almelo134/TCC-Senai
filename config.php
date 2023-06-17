@@ -9,10 +9,13 @@
 }
   $id_usuario = $_SESSION['id_usuario'];
   $dataEntrega = date('d/m/Y');
-  include 'PHP/fotoUpload.php';
-  include 'PHP/setor.php';
-  include 'PHP/cargo.php';
-  include 'PHP/tipoProjeto.php';
+  include 'PHP/POO/fotoUpload.php';
+  // include 'PHP/setor.php';
+  // include 'PHP/cargo.php';
+  // include 'PHP/tipoProjeto.php';
+  include 'PHP/configurations.php';
+  include 'PHP/POO/addinfo.php';
+
 
 ?>
 
@@ -40,11 +43,11 @@
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
+                  <img class="img-xs rounded-circle " src=<?php echo $perfilUsuario->getImagemPerfil(); ?> >
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
-                  <h5 class="mb-0 font-weight-normal"><?php include 'PHP/addInfo.php'; echo $nome;?></h5>
+                  <h5 class="mb-0 font-weight-normal"><?php echo $nome;?></h5>
                 </div>
               </div>
               <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -144,7 +147,7 @@
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle " src=<?php echo 'assets/images/faces/'.$perfilLogado.'.jpg'?> >
+                    <img class="img-xs rounded-circle " src=<?php echo $perfilUsuario->getImagemPerfil(); ?> >
                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php print $nome; ?></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
@@ -162,7 +165,7 @@
                       <p class="preview-subject mb-1">Configurações</p>
                     </div>
                   </a>
-                  <div class = "logout" onclick="location.href='PHP/logout.php'"> 
+                  <div class="logout" onclick="location.href='PHP/POO/logout.php'"> 
                     <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
                         <div class="preview-icon bg-dark rounded-circle">
@@ -204,7 +207,11 @@
 
                       <div class="border-bottom mt-3">                   
                         <h5>Cargos</h5>
-                        <select class="form-control col-2 mt-3 mb-3" id="select-cargo"></select>
+                        <select class="form-control col-2 mt-3 mb-3" id="select-cargo">
+                          <?php foreach ($opcoesTipoProjeto as $opcao) : ?>
+                            <option value="<?php echo $opcao; ?>"><?php echo $opcao; ?></option>
+                          <?php endforeach; ?>
+                        </select>
                         
                         <h6>Adicionar Cargo</h6>
                         <input class="form-control col-2 mt-3" type="text" id="nova-opcao-cargo">
@@ -305,7 +312,9 @@
               xhttp.send(payload);
             });
           });
+        </script>
 
+        <script>
           document.addEventListener("DOMContentLoaded", function() {
             var selectElement = document.getElementById("select-cargo");
             var adicionarOpcaoButton = document.getElementById("adicionar-opcao-cargo");
@@ -374,9 +383,9 @@
               xhttp.send(payload);
             });
           });
-          </script>
+        </script>
 
-          <script>
+        <script>
           document.addEventListener("DOMContentLoaded", function() {
             var selectTipoProjeto = document.getElementById("select-tipo-projeto");
             var adicionarOpcaoTipoProjetoButton = document.getElementById("adicionar-opcao-tipo-projeto");

@@ -69,21 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label>Confirmar Senha</label>
                     <input type="password" name = "confirSenha" class="form-control p_input">
                   </div>
-                  <div class="form-group d-flex align-items-center justify-content-between">
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input"> Lembre-se de mim </label>
-                    </div>
-                    <a href="#" class="forgot-pass">Esqueceu a senha</a>
-                  </div>
                   <div class="text-center">
                     <button type="submit" name = "Registrar" class="btn btn-primary btn-block enter-btn">Registrar</button>
-                  </div>
-                  <div class="d-flex">
-                    <button class="btn btn-facebook col mr-2">
-                      <i class="mdi mdi-facebook"></i> Facebook </button>
-                    <button class="btn btn-google col">
-                      <i class="mdi mdi-google-plus"></i> Google </button>
                   </div>
                   <p class="sign-up text-center">Já tem uma conta?<a href="index.php"> Logar </a></p>
                 </form>
