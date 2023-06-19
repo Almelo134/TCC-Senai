@@ -9,7 +9,32 @@ require 'PHP/conexao/banco.php';
 include 'PHP/POO/projectInfo.php';
 include 'PHP/POO/fotoUpload.php';
 include 'PHP/POO/addinfo.php';
-  
+
+// Verifica se o ID do projeto a ser excluído foi enviado via POST
+if (isset($_POST['projeto_id'])) {
+    $projeto_id = $_POST['projeto_id'];
+
+    // Conecte-se ao banco de dados (substitua as informações de conexão com o seu próprio)
+    $conn = new mysqli('localhost', 'root', '', 'gestaoativ');
+
+    // Verifique se a conexão foi estabelecida corretamente
+    if ($conn->connect_error) {
+        die("Falha na conexão com o banco de dados: " . $conn->connect_error);
+    }
+
+    // Crie a consulta SQL para excluir o projeto
+    $sql = "DELETE FROM projeto WHERE id = $projeto_id";
+
+    // // Execute a consulta SQL
+    if ($conn->query($sql) === TRUE) {
+        // A exclusão foi bem-sucedida
+        echo "<script>alert(Projeto excluído com sucesso!);</script>";
+    } else {
+        // Ocorreu um erro ao excluir o projeto
+        print "Erro ao excluir o projeto: " . $conn->error;
+    }
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -213,7 +238,7 @@ include 'PHP/POO/addinfo.php';
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="preview-list">
-                                                <!-- unico item -->
+                                                <!-- único item -->
                                                 <?php
                                                 // Consulta SQL para buscar todos os itens na tabela
                                                 $sql = "SELECT * FROM projeto";
@@ -246,51 +271,45 @@ include 'PHP/POO/addinfo.php';
                                                         echo '    </div>';
                                                         echo '    <div class="mr-auto text-sm-center pt-2 pt-sm-0">';
                                                         echo '      <p class="text-muted mb-0">' .  $projeto->getCalendario() . '</p>';
-                                                        echo '      <div id="myModal-' . $id . '" class="modal">';
-                                                        echo '        <div class="modal-content">';
-                                                        echo '          <h3>Dados do Projeto</h3>';
-                                                        echo '          <p class="modalText"><strong>Nome do Projeto:</strong> ' . $projeto->getNomeProj() . '</p>';
-                                                        echo '          <p><strong>Descrição:</strong> ' . $projeto->getDescricao() . '</p>';
-                                                        echo '          <p><strong>Categoria:</strong> ' . $projeto->getCategoria()  . '</p>';
-                                                        echo '          <p><strong>Setor responsável:</strong> ' . $projeto->getParticipantes() . '</p>';
-                                                        echo '          <p><strong>Data de entrega:</strong> ' .  $projeto->getCalendario() . '</p>';
-                                                        echo '          <div class="modal-buttons">';
-                                                        echo '            <button class="btn btn-primary btn-concluir-projeto" onclick="projetoConcluido(' . $id . ')">Projeto Concluído</button>';
-                                                        echo '            <button class="btn btn-secondary btn-etapas-projeto" onclick="etapasProjeto(' . $id . ')">Excluir Projeto</button>';
-                                                        echo '          </div>';
-                                                        echo '        </div>';
-                                                        echo '      </div>';                                                        
-                                                        echo '      <script>';
-                                                        echo '        function openModal(id) {';
-                                                        echo '          document.getElementById("myModal-" + id).style.display = "block";';
-                                                        echo '        }';
-                                                        // echo '        function projetoConcluido(id) {';
-                                                        // echo '          // Lógica para marcar o projeto como concluído';
-                                                        // echo '        }';
-                                                        // echo '        function etapasProjeto(id) {';
-                                                        // echo '          // Lógica para exibir as etapas do projeto';
-                                                        // echo '        }';
-                                                        echo '      </script>';
                                                         echo '    </div>';
                                                         echo '  </div>';
                                                         echo '</div>';
-                                                            }
+                                                        echo '<div id="myModal-' . $id . '" class="modal">';
+                                                        echo '  <div class="modal-content">';
+                                                        echo '    <h3>Dados do Projeto</h3>';
+                                                        echo '    <p class="modalText"><strong>Nome do Projeto:</strong> ' . $projeto->getNomeProj() . '</p>';
+                                                        echo '    <p><strong>Descrição:</strong> ' . $projeto->getDescricao() . '</p>';
+                                                        echo '    <p><strong>Categoria:</strong> ' . $projeto->getCategoria()  . '</p>';
+                                                        echo '    <p><strong>Setor responsável:</strong> ' . $projeto->getParticipantes() . '</p>';
+                                                        echo '    <p><strong>Data de entrega:</strong> ' .  $projeto->getCalendario() . '</p>';
+                                                        echo '    <div class="modal-buttons">';
+                                                        echo '      <form method="post">';
+                                                        echo '        <input type="hidden" name="projeto_id" value="' . $id . '">';
+                                                        echo '        <button class="btn btn-primary btn-concluir-projeto" type="submit">Projeto Concluído</button>';
+                                                        echo '      </form>';
+                                                        echo '    </div>';
+                                                        echo '  </div>';
                                                         echo '</div>';
-                                                        echo '<script>';
-                                                        echo 'window.addEventListener("click", function(event) {';
-                                                        echo '    var modals = document.getElementsByClassName("modal");';
-                                                        echo '    for (var i = 0; i < modals.length; i++) {';
-                                                        echo '        var modal = modals[i];';
-                                                        echo '        if (event.target == modal) {';
-                                                        echo '            modal.style.display = "none";';
-                                                        echo '        }';
-                                                        echo '    }';
-                                                        echo '});';
-                                                        echo '</script>';
-                                                        } else {
-                                                        echo "Nenhum resultado encontrado.";
                                                     }
-
+                                                    echo '</div>';
+                                                    echo '<script>';
+                                                    echo 'function openModal(id) {';
+                                                    echo '  var modal = document.getElementById("myModal-" + id);';
+                                                    echo '  modal.style.display = "block";';
+                                                    echo '}';
+                                                    echo 'window.addEventListener("click", function(event) {';
+                                                    echo '  var modals = document.getElementsByClassName("modal");';
+                                                    echo '  for (var i = 0; i < modals.length; i++) {';
+                                                    echo '    var modal = modals[i];';
+                                                    echo '    if (event.target === modal) {';
+                                                    echo '      modal.style.display = "none";';
+                                                    echo '    }';
+                                                    echo '  }';
+                                                    echo '});';
+                                                    echo '</script>';
+                                                } else {
+                                                    echo "Nenhum resultado encontrado.";
+                                                }
                                                 ?>
 
                                             </div>
@@ -304,6 +323,11 @@ include 'PHP/POO/addinfo.php';
             </div>
         </div>
     </div>
+    <style>
+       .preview-item:hover {
+        background-color: #000;
+       } 
+    </style>
 
     <!-- plugins:js -->
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>

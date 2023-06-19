@@ -11,12 +11,12 @@
   include 'PHP/configurations.php';
   require 'PHP/conexao/banco.php';
   include 'PHP/POO/addinfo.php';
+  include 'PHP/POO/projeto.php';
   $dataHoje = date('Y-m-d');
   $datamin = date('Y-m-d', strtotime('-1 day'));
   $datamax = date('Y-m-d', strtotime('+100 year'));
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -187,40 +187,38 @@
                     <div class="card-body">
                         <h4 class="card-title">Criar Projeto</h4>
                         <form action="PHP/POO/projeto.php" method="POST" class="forms-sample">
-                        <div class="form-group">
-                            <label for="Username"> Nome do Projeto </label>
-                            <input type="text" class="form-control" id="Username" name = "nomeProj" placeholder="Projeto">
-                        </div>
-                        <div class="form-group">
-                            <label for="Email">Descrição</label>
-                            <input type="text" class="form-control" name = "descricao" id="Email" placeholder="Descrição">
-                        </div>
-                        <div class="form-group">
-                            <label for="Password">Tipo de Projeto</label>
-                            <select class="form-control" id="Password" name = "categoria">
-                                <option>Selecione o tipo de projeto</option>
-                                <?php foreach ($opcoesTipoProjeto as $opcao) : ?>
-                                  <option value="<?php echo $opcao; ?>"><?php echo $opcao; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="Password">Setor responsavel</label>
-                            <select class="form-control" id="Password" name = "participantes">
-                                <option>Selecione o setor</option>
-                                <?php foreach ($opcoes as $opcao): ?>
-                                  <option value="<?php echo $opcao; ?>"><?php echo $opcao; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="Dataentrega">Data de entrega</label>
-                          <input class="form-control" type="date" id="Dataentrega" name="calendario" min="<?php echo $datamin?>" max="<?php echo $datamax ?>" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary mr-2" name = "Enviar">Enviar</button>
-                        <button class="btn btn-dark">Cancelar</button>
-                        </form>
-                        
+                            <div class="form-group">
+                                <label for="Username">Nome do Projeto</label>
+                                <input type="text" class="form-control" id="Username" name="nomeProj" placeholder="Projeto">
+                            </div>
+                            <div class="form-group">
+                                <label for="Email">Descrição</label>
+                                <input type="text" class="form-control" name="descricao" id="Email" placeholder="Descrição">
+                            </div>
+                            <div class="form-group">
+                                <label for="Password">Tipo de Projeto</label>
+                                <select class="form-control" id="Password" name="categoria">
+                                    <option>Selecione o tipo de projeto</option>
+                                    <?php foreach ($opcoesTipoProjeto as $opcao) : ?>
+                                        <option value="<?php echo $opcao; ?>"><?php echo $opcao; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Password">Setor responsavel</label>
+                                <select class="form-control" id="Password" name="participantes">
+                                    <option>Selecione o setor</option>
+                                    <?php foreach ($opcoes as $opcao) : ?>
+                                        <option value="<?php echo $opcao; ?>"><?php echo $opcao; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Dataentrega">Data de entrega</label>
+                                <input class="form-control" type="date" id="Dataentrega" name="calendario" min="<?php echo $datamin ?>" max="<?php echo $datamax ?>" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2" name="Enviar">Enviar</button>
+                        </form>     
                     </div>
                   </div>
                 </div>

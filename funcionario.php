@@ -13,10 +13,10 @@ include 'PHP/POO/addinfo.php';
 $dataEntrega = date('d/m/Y');
 
 // Configurações do banco de dados
-$servername = "localhost";  // substitua pelo nome do servidor do seu banco de dados
-$username = "root"; // substitua pelo seu nome de usuário do banco de dados
-$password = "";   // substitua pela sua senha do banco de dados
-$dbname = "gestaoativ";     // substitua pelo nome do seu banco de dados
+$servername = "localhost"; 
+$username = "root"; 
+$password = "";  
+$dbname = "gestaoativ";    
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -36,6 +36,19 @@ if ($result->num_rows > 0) {
         $categorias[] = $row['nomeSetor'];
     }
 }
+if (isset($_POST['excluirFuncionario'])) {
+    $id = $_POST['idFuncionario'];
+
+    if ($funcionario->excluirFuncionario($id)) {
+        echo "Funcionário excluído com sucesso.";
+        header("Location: funcionario.php");
+        exit();
+    } else {
+        echo "Erro ao excluir o funcionário.";
+    }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -240,10 +253,9 @@ if ($result->num_rows > 0) {
                                                         // Função para obter o caminho da imagem do funcionário com base no ID
                                                         function obterCaminhoImagem($id)
                                                         {
-                                                            $imagemPadrao = 'assets/images/Funcionarios/face.jpg';
-
-                                                            // Verifica se o arquivo de imagem existe para o ID do funcionário com as extensões permitidas
                                                             $extensoesPermitidas = array('jpg', 'jpeg', 'png', 'svg');
+                                                            $caminhoPadrao = 'assets/images/Funcionarios/face.jpg';
+
                                                             foreach ($extensoesPermitidas as $extensao) {
                                                                 $caminhoImagem = 'assets/images/Funcionarios/' . $id . '.' . $extensao;
                                                                 if (file_exists($caminhoImagem)) {
@@ -251,8 +263,7 @@ if ($result->num_rows > 0) {
                                                                 }
                                                             }
 
-                                                            // Retorna o caminho da imagem padrão caso não exista uma imagem específica para o funcionário
-                                                            return $imagemPadrao;
+                                                            return $caminhoPadrao;
                                                         }
 
                                                         // Verifique se a variável $_POST['categoria'] está definida e não está vazia
@@ -286,6 +297,9 @@ if ($result->num_rows > 0) {
                                                                 $cargo = $row['cargo'];
                                                                 $carga_horaria = $row['carga_horaria'];
 
+                                                                echo '    <form id="excluirFuncionarioForm" method="post" action="PHP/POO/excluirFuncionario.php">';
+                                                                echo '        <input type="hidden" name="idFuncionario" value="">';
+                                                                echo '    </form>';
                                                                 echo '<div class="preview-item border-bottom" onclick="openModal(' . $id . ')">';
                                                                 echo '  <div class="preview-thumbnail">';
                                                                 echo '    <div class="preview-icon bg-primary align-left">';
@@ -305,7 +319,6 @@ if ($result->num_rows > 0) {
                                                                 echo '          <h3>Dados do Projeto</h3>';
                                                                 echo '          <div class="modal-content-wrapper">';
                                                                 echo '            <div class="modal-image">';
-                                                                // Inserir a tag <img> dentro da div modal-image
                                                                 $caminhoImagem = obterCaminhoImagem($id);
                                                                 echo '              <img class="imgWorker" src="' . $caminhoImagem . '" alt="Imagem do funcionário">';
                                                                 echo '            </div>';
@@ -318,8 +331,7 @@ if ($result->num_rows > 0) {
                                                                 echo '              <p><strong>Cargo:</strong> ' . $cargo . '</p>';
                                                                 echo '              <p><strong>Carga horária:</strong> ' . $carga_horaria . '</p>';
                                                                 echo '              <div class="modal-buttons">';
-                                                                echo '               <button class="btn btn-primary btn-concluir-projeto" onclick="projetoConcluido(' . $id . ')">Editar</button>';
-                                                                echo '               <button class="btn btn-secondary btn-etapas-projeto" onclick="etapasProjeto(' . $id . ')">Excluir</button>';
+                                                                echo '               <button class="btn btn-secondary btn-etapas-projeto" onclick="excluirFuncionario(' . $id . ')">Excluir</button>';
                                                                 echo '              </div>';
                                                                 echo '            </div>';
                                                                 echo '          </div>';
@@ -334,25 +346,33 @@ if ($result->num_rows > 0) {
                                                                 echo '    </div>';
                                                                 echo '  </div>';
                                                                 echo '</div>';
-                                                                }
-                                                                echo '</div>';
-                                                                echo '<script>';
-                                                                echo 'window.addEventListener("click", function(event) {';
-                                                                echo '    var modals = document.getElementsByClassName("modal");';
-                                                                echo '    for (var i = 0; i < modals.length; i++) {';
-                                                                echo '        var modal = modals[i];';
-                                                                echo '        if (event.target == modal) {';
-                                                                echo '            modal.style.display = "none";';
-                                                                echo '        }';
-                                                                echo '    }';
-                                                                echo '});';
-                                                                echo '</script>';
-                                                            } else {
-                                                                echo 'Nenhum funcionário encontrado.';
                                                             }
+                                                            echo '</div>';
+                                                            echo '<script>';
+                                                            echo 'window.addEventListener("click", function(event) {';
+                                                            echo '    var modals = document.getElementsByClassName("modal");';
+                                                            echo '    for (var i = 0; i < modals.length; i++) {';
+                                                            echo '        var modal = modals[i];';
+                                                            echo '        if (event.target == modal) {';
+                                                            echo '            modal.style.display = "none";';
+                                                            echo '        }';
+                                                            echo '    }';
+                                                            echo '});';
+                                                            echo '</script>';
+                                                        } else {
+                                                            echo 'Nenhum funcionário encontrado.';
+                                                        }
 
                                                         $conn->close();
                                                     ?>
+                                                    <script>
+                                                        function excluirFuncionario(id) {
+                                                            if (confirm("Tem certeza de que deseja excluir o funcionário?")) {
+                                                                document.getElementById('excluirFuncionarioForm').idFuncionario.value = id;
+                                                                document.getElementById('excluirFuncionarioForm').submit();
+                                                            }
+                                                        }
+                                                    </script>
                                                  </div>
                                              </div>
                                         </div>
@@ -364,6 +384,11 @@ if ($result->num_rows > 0) {
                 </div>
             </div>
         </div>
+        <style>
+        .preview-item:hover {
+            background-color: #000;
+        } 
+        </style>
 
     <!-- plugins:js -->
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>
